@@ -1,4 +1,4 @@
-// TAGS
+// TAGS (maximum 5 per food)
 
 const String Fast = 'Fast';
 const String Healthy = 'Healthy';
@@ -11,6 +11,7 @@ const String Japanese = 'Japanese';
 const String Indian = 'Indian';
 const String Mexican = 'Mexican';
 const String Simple = 'Simple';
+const String Korean = 'Korean';
 
 // Filters
 

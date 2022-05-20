@@ -4,15 +4,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/const/color_gradient.dart';
-import 'MyRecipesCardview.dart';
+import '../my_recipes/MyRecipesCardview.dart';
+import 'OtherRecipesCardview.dart';
 
-class myRecipeList extends StatefulWidget{
+class OtherRecipeList extends StatefulWidget{
 
-  _myRecipeListState createState() => _myRecipeListState();
+  late String id;
+
+  OtherRecipeList({Key? key, required this.id}) : super(key: key);
+
+
+  _OtherRecipeListState createState() => _OtherRecipeListState();
 
 }
 
-class _myRecipeListState extends State<myRecipeList>{
+class _OtherRecipeListState extends State<OtherRecipeList>{
 
   FirebaseFirestore db = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -21,8 +27,7 @@ class _myRecipeListState extends State<myRecipeList>{
   late List myRecipe = [];
 
   Future<void> getData() async {
-    _user = auth.currentUser!;
-    uid = _user.uid;
+    uid = widget.id;
     await db.collection('recipes').get().then((value) => value.docs.forEach((result) {
       dynamic data = result.data();
       if (data['id'] == uid){
@@ -63,7 +68,7 @@ class _myRecipeListState extends State<myRecipeList>{
         child: ListView.builder(
           itemCount: myRecipe.length,
           itemBuilder: (context, index){
-            return MyRecipeCardView(recipes: myRecipe[index]);
+            return OtherRecipesCardView(recipes: myRecipe[index]);
           },
         ),
       ),

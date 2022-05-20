@@ -4,46 +4,37 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/const/color_gradient.dart';
-import 'MyRecipesCardview.dart';
+import 'FollowersCard.dart';
 
-class myRecipeList extends StatefulWidget{
+class viewFollowers extends StatefulWidget {
 
-  _myRecipeListState createState() => _myRecipeListState();
+  viewFollowersState createState() => viewFollowersState();
 
 }
 
-class _myRecipeListState extends State<myRecipeList>{
+class viewFollowersState extends State<viewFollowers>{
 
   FirebaseFirestore db = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
   late User _user;
   late String uid;
-  late List myRecipe = [];
+  late List Followers = [];
 
   Future<void> getData() async {
     _user = auth.currentUser!;
     uid = _user.uid;
-    await db.collection('recipes').get().then((value) => value.docs.forEach((result) {
-      dynamic data = result.data();
-      if (data['id'] == uid){
-        myRecipe.add(data);
-      }
-      setState(() {
-      });
-    }));
-    print(myRecipe);
-    // print(myRecipe[0]);
-    // print(myRecipe[0]['Name']);
+    var docRef = await db.collection('users').doc(uid).get();
+    var data = docRef.data();
+    Followers = data!['followers'];
+    print(Followers);
+    setState(() {
+    });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    getData();
-  }
 
   @override
   Widget build(BuildContext context) {
+    getData();
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -53,7 +44,7 @@ class _myRecipeListState extends State<myRecipeList>{
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
-          "My Recipes",
+          "Followers",
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3A3B3C')),
         ),
       ),
@@ -61,12 +52,13 @@ class _myRecipeListState extends State<myRecipeList>{
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: ListView.builder(
-          itemCount: myRecipe.length,
+          itemCount: Followers.length,
           itemBuilder: (context, index){
-            return MyRecipeCardView(recipes: myRecipe[index]);
+            return FollowersCard(id: Followers[index]);
           },
         ),
       ),
     );
   }
 }
+

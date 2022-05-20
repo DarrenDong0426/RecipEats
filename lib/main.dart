@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:recipeats/screens/search_recipes/search_recipe.dart';
 import 'package:recipeats/screens/sign_in/sign_in.dart';
 
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
        home: FutureBuilder(
         future: _initializeFirebase(),
            builder: (context, snapshot) {

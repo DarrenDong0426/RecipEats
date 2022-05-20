@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -232,4 +233,15 @@ class _editAccountState extends State<Edit_Account>{
     await db.collection("users").doc(uid).set(user);
   }
 
+=======
+import 'package:flutter/cupertino.dart';
+
+class Edit_Account extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+
+>>>>>>> ebf71b7680f664e1729e0617f4e33201037bdbca
 }

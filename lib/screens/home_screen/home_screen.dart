@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -63,4 +64,15 @@ class _HomeScreenState extends State<Home_Screen>{
       );
     }
   }
+=======
+import 'package:flutter/cupertino.dart';
+
+class Home_Screen extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    throw UnimplementedError();
+  }
+
+>>>>>>> ebf71b7680f664e1729e0617f4e33201037bdbca
 }

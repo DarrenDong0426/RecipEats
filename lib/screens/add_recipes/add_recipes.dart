@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -292,6 +292,3 @@ class _addRecipesState extends State<addRecipes>{
   }
 
 }
-=======
-const data = null;
->>>>>>> ebf71b7680f664e1729e0617f4e33201037bdbca

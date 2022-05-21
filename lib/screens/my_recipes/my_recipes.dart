@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -71,6 +71,3 @@ class _myRecipeListState extends State<myRecipeList>{
     );
   }
 }
-=======
-const data = null;
->>>>>>> ebf71b7680f664e1729e0617f4e33201037bdbca

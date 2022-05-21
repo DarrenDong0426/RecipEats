@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,7 +22,7 @@ class Edit_Account extends StatefulWidget {
 
 }
 
-class _editAccountState extends State<Edit_Account>{
+class _editAccountState extends State<Edit_Account> {
 
 
   FirebaseStorage _storage = FirebaseStorage.instance;
@@ -32,42 +32,44 @@ class _editAccountState extends State<Edit_Account>{
   List data = [];
   FirebaseFirestore db = FirebaseFirestore.instance;
   TextEditingController _EmailTextController = TextEditingController();
-       TextEditingController _PasswordTextController = TextEditingController();
-       TextEditingController _userTextController = TextEditingController();
-       TextEditingController _birthdayTextController = TextEditingController();
-       TextEditingController _biographyTextController = TextEditingController();
-       TextEditingController _phoneTextController = TextEditingController();
-       Image i = Image.asset('assets/images/emptyPfp.jpg');
-       String url = 'assets/images/emptyPfp.jpg';
+  TextEditingController _PasswordTextController = TextEditingController();
+  TextEditingController _userTextController = TextEditingController();
+  TextEditingController _birthdayTextController = TextEditingController();
+  TextEditingController _biographyTextController = TextEditingController();
+  TextEditingController _phoneTextController = TextEditingController();
+  Image i = Image.asset('assets/images/emptyPfp.jpg');
+  String url = 'assets/images/emptyPfp.jpg';
   late File p;
 
-  _openGallery(BuildContext context) async{
+  _openGallery(BuildContext context) async {
     var picture = await ImagePicker().pickImage(source: ImageSource.gallery);
     i = Image.file(File(picture!.path), width: 200, height: 200);
     p = File(picture.path);
-    var snapshot = await _storage.ref().child('pfp/'+_EmailTextController.text).putFile(p);
+    var snapshot = await _storage.ref().child(
+        'pfp/' + _EmailTextController.text).putFile(p);
     var link = (await snapshot.ref.getDownloadURL());
-    setState((){
+    setState(() {
       url = link;
     });
     Navigator.of(context).pop();
   }
 
-  _openCamera(BuildContext context) async{
+  _openCamera(BuildContext context) async {
     var picture = await ImagePicker().pickImage(source: ImageSource.camera);
     i = Image.file(File(picture!.path), width: 200, height: 200);
     p = File(picture.path);
-    var snapshot = await _storage.ref().child('pfp/'+_EmailTextController.text).putFile(p);
+    var snapshot = await _storage.ref().child(
+        'pfp/' + _EmailTextController.text).putFile(p);
     var link = (await snapshot.ref.getDownloadURL());
-    setState((){
+    setState(() {
       url = link;
     });
     Navigator.of(context).pop();
   }
 
 
-  Future<void> openChoice(BuildContext context){
-    return showDialog(context: context, builder: (BuildContext context){
+  Future<void> openChoice(BuildContext context) {
+    return showDialog(context: context, builder: (BuildContext context) {
       return AlertDialog(
         title: Text("Add Profile Picture"),
         content: SingleChildScrollView(
@@ -75,14 +77,14 @@ class _editAccountState extends State<Edit_Account>{
               children: <Widget>[
                 GestureDetector(
                   child: Text("Import from Gallery"),
-                  onTap: (){
+                  onTap: () {
                     _openGallery(context);
                   },
                 ),
                 Padding(padding: EdgeInsets.all(6.0)),
                 GestureDetector(
                   child: Text("Take a Picture"),
-                  onTap: (){
+                  onTap: () {
                     _openCamera(context);
                   },
                 )
@@ -93,19 +95,19 @@ class _editAccountState extends State<Edit_Account>{
     });
   }
 
-  Future<dynamic> getDocSnap() async{
+  Future<dynamic> getDocSnap() async {
     final docRef = db.collection('users').doc(uid);
     DocumentSnapshot docSnap = await docRef.get();
     dynamic data = docSnap.data();
-      _userTextController.text = data['user'];
-      _birthdayTextController.text = data['birthday'];
-      _phoneTextController.text = data['phone'];
-      _biographyTextController.text = data['biography'];
-      _PasswordTextController.text = data['password'];
-      url = data['pfp'];
-      setState(() {
-        i = Image.network(url);
-      });
+    _userTextController.text = data['user'];
+    _birthdayTextController.text = data['birthday'];
+    _phoneTextController.text = data['phone'];
+    _biographyTextController.text = data['biography'];
+    _PasswordTextController.text = data['password'];
+    url = data['pfp'];
+    setState(() {
+      i = Image.network(url);
+    });
   }
 
   @override
@@ -115,7 +117,6 @@ class _editAccountState extends State<Edit_Account>{
     _EmailTextController.text = _user.email!;
     getDocSnap();
     super.initState();
-
   }
 
   @override
@@ -130,19 +131,29 @@ class _editAccountState extends State<Edit_Account>{
           elevation: 0,
           title: Text(
             "Edit Account",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3A3B3C')),
+            style: TextStyle(fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: hexStringToColor('3A3B3C')),
           ),
         ),
         body: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height,
             child: SingleChildScrollView(
                 child: Padding(
                     padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
                     child: Column(
                       children: <Widget>[
                         ElevatedButton(
-                          onPressed: () {openChoice(context);},
+                          onPressed: () {
+                            openChoice(context);
+                          },
                           child: CircleAvatar(
                             backgroundImage: i.image,
                             minRadius: 100,
@@ -181,19 +192,24 @@ class _editAccountState extends State<Edit_Account>{
                             enableSuggestions: true,
                             autocorrect: true,
                             cursorColor: Colors.white,
-                            style: TextStyle(color: Colors.white.withOpacity(0.9)),
+                            style: TextStyle(
+                                color: Colors.white.withOpacity(0.9)),
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.info,
                                 color: Colors.white70,
                               ),
-                              labelStyle: TextStyle(color: Colors.white.withOpacity(0.9)),
+                              labelStyle: TextStyle(
+                                  color: Colors.white.withOpacity(0.9)),
                               filled: true,
-                              floatingLabelBehavior: FloatingLabelBehavior.never,
-                              fillColor: hexStringToColor('454F8C').withOpacity(0.8),
+                              floatingLabelBehavior: FloatingLabelBehavior
+                                  .never,
+                              fillColor: hexStringToColor('454F8C').withOpacity(
+                                  0.8),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30.0),
-                                  borderSide: const BorderSide(width: 0, style: BorderStyle.none)),
+                                  borderSide: const BorderSide(
+                                      width: 0, style: BorderStyle.none)),
                             ),
                             keyboardType: TextInputType.multiline
                         ),
@@ -203,7 +219,8 @@ class _editAccountState extends State<Edit_Account>{
                         submitButton(context, "Submit", () async {
                           updateFirebase();
                           Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => navBar()));
+                              MaterialPageRoute(
+                                  builder: (context) => navBar()));
                         })
                       ],
                     )
@@ -212,7 +229,6 @@ class _editAccountState extends State<Edit_Account>{
         )
     );
   }
-
 
 
   Future<void> updateFirebase() async {
@@ -233,15 +249,4 @@ class _editAccountState extends State<Edit_Account>{
     await db.collection("users").doc(uid).set(user);
   }
 
-=======
-import 'package:flutter/cupertino.dart';
-
-class Edit_Account extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
-
->>>>>>> ebf71b7680f664e1729e0617f4e33201037bdbca
 }

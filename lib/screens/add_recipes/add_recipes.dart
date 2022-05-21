@@ -23,7 +23,7 @@ class addRecipes extends StatefulWidget{
 class _addRecipesState extends State<addRecipes>{
 
   var link = Image.asset('assets/images/emptyFood.jpg');
-  String url = 'emptyFood.jpg';
+  String url = 'assets/images/emptyFood.jpg';
   final FirebaseAuth auth = FirebaseAuth.instance;
   late String uid;
   late User _user;
@@ -40,6 +40,7 @@ class _addRecipesState extends State<addRecipes>{
   late Map<String, bool> tags = new Map();
   late List items = [];
   int posts = 0;
+  String error = '';
 
   getData() async {
     final docRef = db.collection('users').doc(uid);
@@ -62,18 +63,6 @@ class _addRecipesState extends State<addRecipes>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: hexStringToColor('3A3B3C'),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text(
-          "Add Recipe",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3A3B3C')),
-        ),
-      ),
       body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
@@ -194,16 +183,58 @@ class _addRecipesState extends State<addRecipes>{
                           ));
                         },
                       ),
+                      Text(error),
                       submitButton(context, "Submit", () async {
-                        updateFirebase();
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => navBar()));
+                        CheckInput();
                       }),
                       ],
                   ),
                 ),
               )),
     );
+  }
+
+  void CheckInput(){
+    if (_titleTextController.text == ""){
+      setState(() {
+        error = "Enter the name of the recipe";
+      });
+    }
+    else if(_infoTextController.text == ""){
+      setState(() {
+        error = "Enter a summary of your dish or any warnings";
+      });
+    }
+    else if(_prepTimeTextController.text == ""){
+      setState(() {
+        error = "Enter the time required for the recipe in minutes";
+      });
+    }
+    else if(_servingTextController.text == ""){
+      setState(() {
+        error = "Enter the serving size of the dish";
+      });
+    }
+    else if(_ingredientsTextController.text == ""){
+      setState(() {
+        error = "Enter ingredients or tools needed for the dish";
+      });
+    }
+    else if(_stepsTextController.text == ""){
+      setState(() {
+        error = "Enter the steps to prepare the dish";
+      });
+    }
+    else if(url == 'assets/images/emptyFood.jpg'){
+      setState(() {
+        error = "Add a profile picture";
+      });
+    }
+    else{
+      updateFirebase();
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => navBar()));
+    }
   }
 
   getTag() async{

@@ -6,6 +6,7 @@ import 'package:flutter_tags/flutter_tags.dart';
 import '../../utils/const/color_gradient.dart';
 import '../edit_account/Profile.dart';
 import '../search_recipes/OtherProfile.dart';
+import 'my_recipes.dart';
 
 class myRecipeCardDetails extends StatefulWidget{
 
@@ -26,17 +27,18 @@ class _myRecipeCardDetailsState extends State<myRecipeCardDetails>{
   late Image i = Image.asset('assets/images/emptyPfp.jpg');
   String url = '';
   late List items = [];
+  int post = 0;
 
   void getData() async {
     final docRef = db.collection('users').doc(widget.data['id']);
     DocumentSnapshot docSnap = await docRef.get();
     dynamic userData = docSnap.data();
-    var docRef2 = await db.collection('users').doc(widget.data['id']).get();
-    var data2 = docRef2.data();
-    url = data2!['pfp'];
     items = widget.data['tags'];
+    print(widget.data['food_image']);
     setState(() {
       i  = Image.network(userData['pfp']);
+      url = widget.data['food_image'];
+      post = userData['posts'];
     });
   }
 
@@ -59,7 +61,7 @@ class _myRecipeCardDetailsState extends State<myRecipeCardDetails>{
       ),
       body: SingleChildScrollView(child: Column(
         children: <Widget>[
-          Image(image: i.image),
+          Image.network(url),
           Row(
             children: <Widget>[
               GestureDetector(
@@ -67,7 +69,7 @@ class _myRecipeCardDetailsState extends State<myRecipeCardDetails>{
                   Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));
                 },
                 child: CircleAvatar(
-                  backgroundImage: Image.network(url).image,
+                  backgroundImage: i.image,
                   minRadius: 50,
                   backgroundColor: Colors.white,
                 ),
@@ -93,6 +95,8 @@ class _myRecipeCardDetailsState extends State<myRecipeCardDetails>{
   }
 
   delete() {
-
+    db.collection('recipes').doc(widget.data['Name'] + widget.data['id']).delete();
+    db.collection('users').doc(widget.data['id']).update({'posts': post - 1});
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));
   }
 }

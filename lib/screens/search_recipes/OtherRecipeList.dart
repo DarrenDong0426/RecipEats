@@ -37,8 +37,6 @@ class _OtherRecipeListState extends State<OtherRecipeList>{
       });
     }));
     print(myRecipe);
-    // print(myRecipe[0]);
-    // print(myRecipe[0]['Name']);
   }
 
   @override

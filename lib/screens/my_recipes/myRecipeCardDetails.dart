@@ -34,12 +34,13 @@ class _myRecipeCardDetailsState extends State<myRecipeCardDetails>{
     DocumentSnapshot docSnap = await docRef.get();
     dynamic userData = docSnap.data();
     items = widget.data['tags'];
-    print(widget.data['food_image']);
-    setState(() {
-      i  = Image.network(userData['pfp']);
-      url = widget.data['food_image'];
-      post = userData['posts'];
-    });
+    if (mounted) {
+      setState(() {
+        i = Image.network(userData['pfp']);
+        url = widget.data['food_image'];
+        post = userData['posts'];
+      });
+    }
   }
 
   @override

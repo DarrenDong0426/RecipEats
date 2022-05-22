@@ -32,9 +32,6 @@ class _myRecipeListState extends State<myRecipeList>{
       setState(() {
       });
     }));
-    print(myRecipe);
-    // print(myRecipe[0]);
-    // print(myRecipe[0]['Name']);
   }
 
   @override

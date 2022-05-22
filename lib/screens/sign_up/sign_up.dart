@@ -99,10 +99,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     id: uid)));
       }
     } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          print('No user found for that email.');
-        } else if (e.code == 'wrong-password') {
-          print('Wrong password provided for that user.');
+        if (e.code == 'invalid-email') {
+          setState(() {
+            error = "Invalid email!";
+          });
+        }
+        if (e.code == 'email-already-exists') {
+          setState(() {
+            error = "Email already in use!";
+          });
         }
         if (kDebugMode) {
           print(e.code);

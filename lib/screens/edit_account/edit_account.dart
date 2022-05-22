@@ -242,11 +242,10 @@ class _editAccountState extends State<Edit_Account> {
       "biography": _biographyTextController.text,
       "phone": _phoneTextController.text,
       "post": [],
-      "friends": [],
       "favorite_post": [],
       "pfp": url,
     };
-    await db.collection("users").doc(uid).set(user);
+    await db.collection("users").doc(uid).update(user);
   }
 
 }

@@ -18,7 +18,7 @@ class viewFollowersState extends State<viewFollowers>{
   FirebaseAuth auth = FirebaseAuth.instance;
   late User _user;
   late String uid;
-  late List Followers = [];
+  List Followers = [];
 
   Future<void> getData() async {
     _user = auth.currentUser!;
@@ -26,7 +26,6 @@ class viewFollowersState extends State<viewFollowers>{
     var docRef = await db.collection('users').doc(uid).get();
     var data = docRef.data();
     Followers = data!['followers'];
-    print(Followers);
     if (mounted) {
       setState(() {});
     }

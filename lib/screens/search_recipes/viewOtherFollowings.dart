@@ -29,7 +29,6 @@ class viewOtherFollowingState extends State<viewOtherFollowings>{
     var docRef = await db.collection('users').doc(uid).get();
     var data = docRef.data();
     Following = data!['followers'];
-    print(Following);
     setState(() {
     });
   }

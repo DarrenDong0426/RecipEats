@@ -102,16 +102,16 @@ class _myRecipeCardViewState extends State<MyRecipeCardView>{
     dynamic userData = docSnap.data();
     if (userData['favorite_post'].indexOf(widget.recipes['Name'] +  widget.recipes['id']) == -1){
       isLiked = false;
-      //print(isLiked);
     }
     else{
       isLiked = true;
-      //print(isLiked);
     }
-    setState(() {
-      i  = Image.network(userData['pfp']);
-      favorite = userData['favorite_post'];
-    });
+    if (mounted) {
+      setState(() {
+        i = Image.network(userData['pfp']);
+        favorite = userData['favorite_post'];
+      });
+    }
   }
   
 }

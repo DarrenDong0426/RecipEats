@@ -35,7 +35,9 @@ class _HomeScreenState extends State<Home_Screen>{
         followerPosts.add(data);
       }
   }));
-    setState(() {});
+    if (mounted){
+      setState(() {});
+    }
   }
 
   @override

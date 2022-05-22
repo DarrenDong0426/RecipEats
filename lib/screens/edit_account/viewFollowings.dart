@@ -27,8 +27,9 @@ class viewFollowingState extends State<viewFollowings>{
     var data = docRef.data();
     Following = data!['following'];
     print(Following);
-    setState(() {
-    });
+    if (mounted) {
+      setState(() {});
+    }
   }
 
 

@@ -50,9 +50,11 @@ class _profileState extends State<Profile>{
       posts = data['posts'];
       followers = data['followers'].length;
       followings = data['following'].length;
-      setState(() {
-        i = Image.network(url);
-      });
+      if (mounted) {
+        setState(() {
+          i = Image.network(url);
+        });
+      }
 
   }
 

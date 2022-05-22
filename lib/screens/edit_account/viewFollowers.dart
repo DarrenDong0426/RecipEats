@@ -27,8 +27,9 @@ class viewFollowersState extends State<viewFollowers>{
     var data = docRef.data();
     Followers = data!['followers'];
     print(Followers);
-    setState(() {
-    });
+    if (mounted) {
+      setState(() {});
+    }
   }
 
 

@@ -32,13 +32,98 @@ class _navBarState extends State<navBar> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: _widgetOption[index],
-        bottomNavigationBar: BottomNavigationBar(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        backgroundColor: Color(0xffd76b5b),
+        onPressed: () {
+          setState(() {
+            index = 2;
+          });
+
+        },
+      ),
+      bottomNavigationBar:
+
+       BottomAppBar(
+
+        shape: CircularNotchedRectangle(),
+
+        notchMargin: 10.0,
+        child: Row(
+
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            IconButton(
+
+              icon: Icon(Icons.home),
+
+              onPressed: () {
+                setState(() {
+                  index = 0;
+                });
+
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                setState(() {
+                  index = 1;
+                });
+
+              },
+            ),
+           /* IconButton(
+              icon: Icon(null),
+              onPressed: () {},
+            ),*/
+            Container(height: 65.0,width: 15.0,),
+
+            IconButton(
+              icon: Icon(Icons.circle_notifications),
+              onPressed: () {
+                setState(() {
+                  index = 3;
+                });
+
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.person),
+              onPressed: () {
+                setState(() {
+                  index = 4;
+                });
+
+              },
+            )
+          ],
+        ),
+      ),
+
+
+        /*bottomNavigationBar: BottomNavigationBar(
+
         items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.black), label: ''),
-            BottomNavigationBarItem(icon: Icon(Icons.search, color: Colors.black), label: ''),
-            BottomNavigationBarItem(icon: Icon(Icons.add, color: Colors.black), label: ''),
-            BottomNavigationBarItem(icon: Icon(Icons.circle_notifications, color: Colors.black), label: ''),
-            BottomNavigationBarItem(icon: Icon(Icons.person, color: Colors.black), label: ''),
+            BottomNavigationBarItem(icon: Icon(Icons.home, color: Color(0xff51564e)), label: ''),
+            BottomNavigationBarItem(icon: Icon(Icons.search, color: Color(0xff51564e)), label: ''),
+            BottomNavigationBarItem(
+              icon: Container(
+                decoration: BoxDecoration(
+                    color: Color(0xff51564e),
+                    shape: BoxShape.circle),
+                child: Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Icon(Icons.add),
+                ),
+              ),
+                label: ''
+                //icon: Icon(Icons.add, color: Colors.black), label: ''
+            ),
+            BottomNavigationBarItem(icon: Icon(Icons.circle_notifications, color: Color(0xff51564e)), label: ''),
+            BottomNavigationBarItem(icon: Icon(Icons.person, color: Color(0xff51564e)), label: ''),
           ],
           showSelectedLabels: false,
           showUnselectedLabels: false,
@@ -49,7 +134,7 @@ class _navBarState extends State<navBar> {
               index = i;
             });
           },
-        )
+        )*/
     );
   }
 }

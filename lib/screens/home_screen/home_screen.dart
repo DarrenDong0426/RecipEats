@@ -54,8 +54,11 @@ class _HomeScreenState extends State<Home_Screen>{
 
   getChild() {
     if (Following.length == 0) {
-      return Center(child: Text(
-          "You are not following anyone currently. Start following users to see their posts."));
+      return Padding(
+          padding: EdgeInsets.all(35),
+          child: Center(child: Text(
+            "You are not following anyone currently. Start following users to see their posts.",))
+      );
     }
     else{
       return ListView.builder(

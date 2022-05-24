@@ -26,6 +26,7 @@ class _OtherRecipeCardViewState extends State<OtherRecipesCardView>{
   late Image i = Image.asset('assets/images/emptyPfp.jpg');
   List favorite = [];
   bool Liked = false;
+  List ratings = [];
   int numsOfLike = 0;
   String uid = '';
   dynamic recipeData;
@@ -73,6 +74,7 @@ class _OtherRecipeCardViewState extends State<OtherRecipesCardView>{
             children: <Widget>[
               LikeButton(likeCount: numsOfLike, isLiked: Liked, onTap: updateFirebase),
               IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => OtherComments(comments: data['comment']))), icon: Icon(Icons.chat_bubble_outline)),
+              Text('Ratings: ' + getRating() + '/5'),
             ],
           ),
         ],
@@ -133,12 +135,24 @@ class _OtherRecipeCardViewState extends State<OtherRecipesCardView>{
     recipeData = docSnap2.data();
     if (mounted) {
       setState(() {
+        ratings = recipeData['Rating'];
         userid = id!;
         numsOfLike = recipeData['likes'];
         i = Image.network(userData['pfp']);
         favorite = userData['favorite_post'];
       });
     }
+  }
+
+  String getRating() {
+    num max = 0;
+    for (int i = 0; i < ratings.length; i++){
+      max += ratings[i];
+    }
+    if (max == 0){
+      return 0.toString();
+    }
+    return (max / ratings.length).toString();
   }
 
 }

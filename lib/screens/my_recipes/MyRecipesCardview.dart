@@ -31,6 +31,7 @@ class _myRecipeCardViewState extends State<MyRecipeCardView>{
   int numsOfLike = 0;
   String uid = '';
   dynamic recipeData;
+  List ratings = [];
 
   @override
   void initState() {
@@ -73,6 +74,7 @@ class _myRecipeCardViewState extends State<MyRecipeCardView>{
             children: <Widget>[
               LikeButton(likeCount: numsOfLike, isLiked: Liked, onTap: updateFirebase),
               IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => myComments(comments: data['comment']))), icon: Icon(Icons.chat_bubble_outline)),
+              Text('Ratings: ' + getRating() + '/5'),
             ],
           ),
         ],
@@ -130,10 +132,22 @@ class _myRecipeCardViewState extends State<MyRecipeCardView>{
     print(recipeData);
     if (mounted) {
       setState(() {
+        ratings = recipeData['Rating'];
         numsOfLike = recipeData['likes'];
         i = Image.network(userData['pfp']);
         favorite = userData['favorite_post'];
       });
     }
+  }
+
+  String getRating() {
+    num max = 0;
+    for (int i = 0; i < ratings.length; i++){
+      max += ratings[i];
+    }
+    if (max == 0){
+      return 0.toString();
+    }
+    return (max / ratings.length).toString();
   }
 }

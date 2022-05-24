@@ -197,6 +197,7 @@ class _newProfileState extends State<newProfile>{
       "biography": _biographyTextController.text,
       "phone": _phoneTextController.text,
       "posts": 0,
+      "rated": [],
       "following": [],
       "followers": [],
       "favorite_post": [],

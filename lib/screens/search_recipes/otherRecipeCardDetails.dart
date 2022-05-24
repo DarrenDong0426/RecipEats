@@ -1,11 +1,14 @@
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_tags/flutter_tags.dart';
 
 import '../../utils/const/color_gradient.dart';
 import '../edit_account/Profile.dart';
-import '../search_recipes/OtherProfile.dart';
 
 class OtherRecipeCardDetails extends StatefulWidget{
 
@@ -26,18 +29,36 @@ class _OtherRecipeCardDetailsState extends State<OtherRecipeCardDetails>{
   late Image i = Image.asset('assets/images/emptyPfp.jpg');
   String url = '';
   late List items = [];
+  List ratings = [];
+  Map<String, dynamic> rateList = new Map();
+  String currId = '';
+  bool rated = false;
+  double? score = 0;
 
   void getData() async {
     final docRef = db.collection('users').doc(widget.data['id']);
+    var auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+    currId = user!.uid;
     DocumentSnapshot docSnap = await docRef.get();
     dynamic userData = docSnap.data();
     var docRef2 = await db.collection('users').doc(widget.data['id']).get();
     var data2 = docRef2.data();
     url = data2!['pfp'];
     items = widget.data['tags'];
-    setState(() {
-      i  = Image.network(userData['pfp']);
-    });
+    ratings = widget.data['Rating'];
+    var docRef3 = await db.collection('users').doc(currId).get();
+    var data3 = docRef3.data();
+    rateList = Map<String, dynamic>.from(data3!['rated']);
+    if (rateList.containsKey(widget.data['Name'] + widget.data['id'])){
+      rated = true;
+      score = rateList[widget.data['Name'] + widget.data['id']];
+    }
+    if (mounted) {
+      setState(() {
+        i = Image.network(userData['pfp']);
+      });
+    }
   }
 
   @override
@@ -75,6 +96,23 @@ class _OtherRecipeCardDetailsState extends State<OtherRecipeCardDetails>{
               Text(data['Name'] + " by " + data["Author"]),
             ],
           ),
+          RatingBar(
+            ignoreGestures: rated,
+            initialRating: score!,
+            direction: Axis.horizontal,
+            allowHalfRating: true,
+            itemCount: 5,
+            ratingWidget: RatingWidget(
+              full: Image.asset('assets/images/1.png'),
+              half: Image.asset('assets/images/2.png'),
+              empty: Image.asset('assets/images/3.png'),
+            ),
+            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+            onRatingUpdate: (rating) {
+              ratings.add(rating);
+              updateFirebase(rating);
+            },
+          ),
           Tags(
             itemCount: items.length,
             itemBuilder: (int index){
@@ -89,5 +127,14 @@ class _OtherRecipeCardDetailsState extends State<OtherRecipeCardDetails>{
         ],
       ),),
     );
+  }
+
+  void updateFirebase(double rating) {
+    rateList[widget.data['Name'] + widget.data['id']] = rating;
+    db.collection('recipes').doc(widget.data['Name'] + widget.data['id']).update({'Rating': ratings});
+    db.collection('users').doc(currId).update({'rated': rateList});
+    rated = true;
+    setState(() {
+    });
   }
 }

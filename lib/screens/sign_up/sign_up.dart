@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:recipeats/data/firebase/info.dart';
 import 'package:recipeats/screens/search_recipes/search_recipe.dart';
 import 'package:recipeats/utils/const/color_gradient.dart';
 import 'package:recipeats/utils/const/reusable_textfield.dart';
@@ -90,8 +89,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         );
         User? user = auth.currentUser;
         uid = user!.uid;
-        setEmail(_emailTextController.text);
-        setPassword(_passwordTextController.text);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) =>
                 newProfile(email: _emailTextController,

@@ -27,11 +27,19 @@ class _myRecipeCardViewState extends State<MyRecipeCardView>{
 
   late Image i = Image.asset('assets/images/emptyPfp.jpg');
   List favorite = [];
-  bool isLiked = false;
+  bool Liked = false;
+  int numsOfLike = 0;
+  String uid = '';
+  dynamic recipeData;
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
-    getData();
     Map<String, dynamic> data = widget.recipes;
     return Container(
       child: Column(
@@ -63,7 +71,7 @@ class _myRecipeCardViewState extends State<MyRecipeCardView>{
           ),
           Row(
             children: <Widget>[
-              LikeButton(likeCount: data['likes'], isLiked: isLiked, onTap: updateFirebase),
+              LikeButton(likeCount: numsOfLike, isLiked: Liked, onTap: updateFirebase),
               IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => myComments(comments: data['comment']))), icon: Icon(Icons.chat_bubble_outline)),
             ],
           ),
@@ -73,27 +81,36 @@ class _myRecipeCardViewState extends State<MyRecipeCardView>{
   }
 
   Future<bool> updateFirebase(bool isLiked) async{
-    print(widget.recipes['likes]']);
     if (isLiked){
-      var likes = widget.recipes['likes'] - 1;
-      favorite.remove(widget.recipes['Name'] +  widget.recipes['id']);
+      var likes = recipeData['likes'] - 1;
+      print(recipeData);
+      print(isLiked);
+      favorite.remove(recipeData['Name'] +  recipeData['id']);
       db.collection('recipes').doc(
-          widget.recipes['Name'] + widget.recipes['id']).update(
+          recipeData['Name'] + recipeData['id']).update(
           {'likes': likes});
-      db.collection('users').doc(widget.recipes['id']).update(
+      db.collection('users').doc(recipeData['id']).update(
           {"favorite_post": favorite});
-      return !isLiked;
     }
     else {
-      var likes = widget.recipes['likes'] + 1;
-      favorite.add(widget.recipes['Name'] +  widget.recipes['id']);
+      print(recipeData);
+      var likes = recipeData['likes'] + 1;
+      print(isLiked);
+      favorite.add(recipeData['Name'] +  recipeData['id']);
       db.collection('recipes').doc(
-          widget.recipes['Name'] + widget.recipes['id']).update(
+          recipeData['Name'] + recipeData['id']).update(
           {'likes': likes});
-      db.collection('users').doc(widget.recipes['id']).update(
+      db.collection('users').doc(recipeData['id']).update(
           {"favorite_post": favorite});
-      return isLiked;
     }
+    final docRef2 = db.collection('recipes').doc(uid);
+    DocumentSnapshot docSnap2 = await docRef2.get();
+    recipeData = docSnap2.data();
+    setState(() {
+      Liked = !Liked;
+      numsOfLike = recipeData['likes'];
+    });
+    return Liked;
   }
 
   void getData() async {
@@ -101,17 +118,22 @@ class _myRecipeCardViewState extends State<MyRecipeCardView>{
     DocumentSnapshot docSnap = await docRef.get();
     dynamic userData = docSnap.data();
     if (userData['favorite_post'].indexOf(widget.recipes['Name'] +  widget.recipes['id']) == -1){
-      isLiked = false;
+      Liked = false;
     }
     else{
-      isLiked = true;
+      Liked = true;
     }
+    uid = widget.recipes['Name'] + widget.recipes['id'];
+    final docRef2 = db.collection('recipes').doc(uid);
+    DocumentSnapshot docSnap2 = await docRef2.get();
+    recipeData = docSnap2.data();
+    print(recipeData);
     if (mounted) {
       setState(() {
+        numsOfLike = recipeData['likes'];
         i = Image.network(userData['pfp']);
         favorite = userData['favorite_post'];
       });
     }
   }
-  
 }

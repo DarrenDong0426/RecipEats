@@ -89,6 +89,7 @@ class _myRecipeCardDetailsState extends State<myRecipeCardDetails>{
           Text("Servings: " + data['serving']),
           Text("Ingredients and Utensils: " + data['ingredient']),
           Text("Steps: " + data['steps']),
+          // ElevatedButton(onPressed: ()=> edit_recipe(data: data), child: Text('Edit')),
           ElevatedButton(onPressed: ()=> delete(), child: Text('Delete'))
         ],
       ),),

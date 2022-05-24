@@ -46,7 +46,7 @@ class _addRecipesState extends State<addRecipes>{
     final docRef = db.collection('users').doc(uid);
     DocumentSnapshot docSnap = await docRef.get();
     dynamic data = docSnap.data();
-    username = data['user'];
+    username = data!['user'];
     posts = data['posts'];
   }
 

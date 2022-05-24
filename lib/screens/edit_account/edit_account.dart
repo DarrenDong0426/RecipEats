@@ -241,8 +241,6 @@ class _editAccountState extends State<Edit_Account> {
       "birthday": _birthdayTextController.text,
       "biography": _biographyTextController.text,
       "phone": _phoneTextController.text,
-      "post": [],
-      "favorite_post": [],
       "pfp": url,
     };
     await db.collection("users").doc(uid).update(user);

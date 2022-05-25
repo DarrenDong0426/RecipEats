@@ -73,7 +73,9 @@ class _myRecipeCardViewState extends State<MyRecipeCardView>{
           Row(
             children: <Widget>[
               LikeButton(likeCount: numsOfLike, isLiked: Liked, onTap: updateFirebase),
-              IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => myComments(comments: data['comment']))), icon: Icon(Icons.chat_bubble_outline)),
+              IconButton(onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => myComments(id: data['Name'] + data['id'])));},
+                  icon: Icon(Icons.chat_bubble_outline)),
               Text('Ratings: ' + getRating() + '/5'),
             ],
           ),
@@ -132,6 +134,7 @@ class _myRecipeCardViewState extends State<MyRecipeCardView>{
     print(recipeData);
     if (mounted) {
       setState(() {
+        recipeData = recipeData;
         ratings = recipeData['Rating'];
         numsOfLike = recipeData['likes'];
         i = Image.network(userData['pfp']);

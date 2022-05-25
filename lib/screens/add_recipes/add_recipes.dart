@@ -260,9 +260,11 @@ class _addRecipesState extends State<addRecipes>{
       "ingredient": _ingredientsTextController.text,
       "steps": _stepsTextController.text,
       "food_image": url,
-      'comment': [],
       'likes': 0,
       'tags': items,
+      'comment': {'users': [],
+        'comment': [],
+        'times': [],}
     };
     await db.collection("recipes").doc(_titleTextController.text + uid).set(recipe);
     await db.collection('users').doc(uid).update({"posts": posts + 1});

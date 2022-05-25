@@ -1,5 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:recipeats/screens/search_recipes/search_recipe.dart';
 import 'package:recipeats/screens/sign_in/sign_in.dart';
 
 void main() {
@@ -18,6 +21,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        theme:ThemeData(
+        textTheme: GoogleFonts.poppinsTextTheme(
+        Theme.of(context).textTheme,
+    ),
+        ),
         debugShowCheckedModeBanner: false,
        home: FutureBuilder(
         future: _initializeFirebase(),

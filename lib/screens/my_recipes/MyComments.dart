@@ -27,7 +27,7 @@ class _myCommentsState extends State<myComments>{
   FirebaseFirestore db = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
   late User _user;
-  late String uid;
+  late String uid = '';
   late String recipeId = '';
   Map<String, dynamic> comments = {
     'users': [],
@@ -43,6 +43,8 @@ class _myCommentsState extends State<myComments>{
     _user = auth.currentUser!;
     uid = _user.uid;
     getData();
+    setState(() {
+    });
   }
 
 
@@ -65,6 +67,9 @@ class _myCommentsState extends State<myComments>{
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Column(children: <Widget>[
+          Expanded(child:
+              getChild()
+            ),
           TextField(
               minLines: 1,
               maxLines: 5,
@@ -88,43 +93,73 @@ class _myCommentsState extends State<myComments>{
               ),
               keyboardType: TextInputType.multiline
           ),
-          submitButton(context, "Post", updateFirebase()),
-          ListView.builder(
-            itemCount: comments.length,
-            itemBuilder: (context, index){
-              return getComment(comments['users'][index], comments['comment'][index], comments['times'][index]);
-            },
-          ),
-          ],
+          submitButton(context, "Post", () async {
+            updateFirebase();}),
+         ],
         ),
       ),
     );
   }
 
+  getChild() {
+    if (comments['users'].length == 0) {
+      return Padding(
+          padding: EdgeInsets.all(35),
+          child: Center(child: Text(
+            "There are no comments on this posts.",))
+      );
+    }
+    else{
+      return ListView.builder(
+        shrinkWrap: true,
+        itemCount: comments['users'].length,
+        itemBuilder: (context, index){
+          return getComment(comments['users'][index], comments['comment'][index], comments['times'][index]);
+        },
+      );
+    }
+  }
+
   getComment(String user, String comment, String time) {
     if (user == uid){
-      return commentCard(isCurrentUser: true);
+      return Container(
+        child: Column(
+            children: <Widget>[
+              Text(user + ' ' + time),
+              Text(comment),
+              SizedBox(
+                height: 20,
+              )
+          ]
+        ),
+      );
     }
     else {
-      return commentCard(isCurrentUser: false);
+      return;
     }
   }
 
   updateFirebase() async {
-    final docRef = db.collection('users').doc(uid);
-    DocumentSnapshot docSnap = await docRef.get();
-    dynamic data = docSnap.data();
-    print(comments['users']);
-    List users = comments['users'].add(uid);
-    List times = comments['times'].add(getTime());
-    List comment = comments['comment'].add(_commentTextController.text);
-    comments = {
-      'users': users,
-      'comment': times,
-      'times': comment,
-    };
-    db.collection('recipes').doc(recipeId).update({'comment': comments});
-    Navigator.pop(context);
+    if (_commentTextController.text != '') {
+      final docRef = db.collection('users').doc(uid);
+      DocumentSnapshot docSnap = await docRef.get();
+      dynamic data = docSnap.data();
+      print(comments);
+      print(comments['users']);
+      List users = comments['users'];
+      users.add(uid);
+      List times = comments['times'];
+      times.add(getTime());
+      List comment = comments['comment'];
+      comment.add(_commentTextController.text);
+      comments = {
+        'users': users,
+        'comment': comment,
+        'times': times,
+      };
+      db.collection('recipes').doc(recipeId).update({'comment': comments});
+      Navigator.pop(context);
+    }
   }
 
   getTime() {
@@ -142,5 +177,4 @@ class _myCommentsState extends State<myComments>{
       setState(() {});
     }
   }
-
 }

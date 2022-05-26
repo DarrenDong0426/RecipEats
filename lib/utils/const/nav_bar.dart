@@ -20,7 +20,7 @@ class _navBarState extends State<navBar> {
 
   int index = 0;
 
-  List<Widget> _widgetOption = <Widget>[
+  final List<Widget> _widgetOption = <Widget>[
     Home_Screen(),
     Search_Recipes(),
     addRecipes(),

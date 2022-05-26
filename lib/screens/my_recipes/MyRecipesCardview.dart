@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
+import 'package:recipeats/screens/add_recipes/add_recipes.dart';
 import 'package:recipeats/screens/edit_account/Profile.dart';
 import 'package:recipeats/screens/home_screen/home_screen.dart';
 import 'package:recipeats/screens/my_recipes/myRecipeCardDetails.dart';
@@ -73,8 +74,7 @@ class _myRecipeCardViewState extends State<MyRecipeCardView>{
           Row(
             children: <Widget>[
               LikeButton(likeCount: numsOfLike, isLiked: Liked, onTap: updateFirebase),
-              IconButton(onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => myComments(id: data['Name'] + data['id'])));},
+              IconButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => myComments(id: data['Name'] + data['id'])))},
                   icon: Icon(Icons.chat_bubble_outline)),
               Text('Ratings: ' + getRating() + '/5'),
             ],

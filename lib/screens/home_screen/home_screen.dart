@@ -44,6 +44,20 @@ class _HomeScreenState extends State<Home_Screen>{
   Widget build(BuildContext context) {
     getData();
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        // leading: Icon(Icons.close_rounded),
+        iconTheme: IconThemeData(
+          color: hexStringToColor('3A3B3C'),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        title: Text(
+          "Home",
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3A3B3C')),
+        ),
+      ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,

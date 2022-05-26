@@ -48,7 +48,7 @@ class _OtherRecipeCardViewState extends State<OtherRecipesCardView>{
           GestureDetector(
             child: Column(
               children: <Widget>[
-                Row(
+                /*Row(
                     children: <Widget>[
                       GestureDetector(
                         onTap: (){
@@ -56,27 +56,76 @@ class _OtherRecipeCardViewState extends State<OtherRecipesCardView>{
                         },
                         child: CircleAvatar(
                           backgroundImage: i.image,
-                          minRadius: 50,
+                          maxRadius: 30,
                           backgroundColor: Colors.white,
                         ),
                       ),
                       Text(data['Name'] + ' by ' + data['Author']),
                     ]
+                ),*/
+                Padding(
+                  padding: EdgeInsets.all(15),
+                child:
+                    Stack(
+                children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image.network(data['food_image'], width: 500, height: 500, fit: BoxFit.fill, alignment: Alignment.center,
+                 ),
+
                 ),
-                Image.network(data['food_image']),
+                  Positioned.fill(
+                    top: 10,
+                    child:
+                        Align(
+                          alignment: Alignment.topCenter,
+                      child: Text(data['Name'], style: TextStyle(color: Colors.white, fontSize: 24))
+                        )
+                  ),
+                  Positioned(
+                    bottom: 250, right: 15,
+                      //give the values according to your requirement
+                    child:
+                      Column(
+                        children: <Widget>[
+                          LikeButton(likeCount: numsOfLike, isLiked: Liked, onTap: updateFirebase),
+                          IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => OtherComments(comments: data['comment']))), icon: Icon(Icons.chat_bubble_outline), color: Colors.white,),
+
+                        ],
+                      )
+
+                  ),
+                  Positioned(
+                    bottom: 10, left: 10,
+                    child:
+                      Row(
+                        children: <Widget>[
+                          CircleAvatar(
+                            backgroundImage: i.image,
+                            maxRadius: 30,
+                            backgroundColor: Colors.white,
+                          ),
+                          Container(width: 15),
+                          Text(data['Author'], style: TextStyle(color: Colors.white, fontSize: 19),),
+                        ],
+                      )
+                  )
+                ]
+                )
+                )
               ],
             ),
             onTap: (){
               Navigator.push(context, MaterialPageRoute(builder: (context) => OtherRecipeCardDetails(data: data)));
             },
           ),
-          Row(
+          /*Row(
             children: <Widget>[
               LikeButton(likeCount: numsOfLike, isLiked: Liked, onTap: updateFirebase),
               IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => OtherComments(comments: data['comment']))), icon: Icon(Icons.chat_bubble_outline)),
               Text('Ratings: ' + getRating() + '/5'),
             ],
-          ),
+          ),*/
         ],
       ),
     );

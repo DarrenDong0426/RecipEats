@@ -48,7 +48,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     20, MediaQuery.of(context).size.height * 0.1, 20, 0),
                 child: Column(
                   children: <Widget>[
-                    Image.asset('assets/images/logo.png'),
+                    Padding(
+                      child: Image.asset('assets/images/logo.png'),
+                      padding: EdgeInsets.fromLTRB(0, 30, 0, 30)
+                    ),
                     reusableTextField("Enter Email", Icons.person_outline, false,
                         _emailTextController, TextInputType.emailAddress),
                     const SizedBox(

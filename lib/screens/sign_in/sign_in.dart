@@ -24,6 +24,19 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        // leading: Icon(Icons.close_rounded),
+        iconTheme: IconThemeData(
+          color: hexStringToColor('3A3B3C'),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          "Sign In",
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3A3B3C')),
+        ),
+      ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -33,7 +46,10 @@ class _SignInScreenState extends State<SignInScreen> {
                 20, MediaQuery.of(context).size.height * 0.1, 20, 0),
             child: Column(
               children: <Widget>[
-                Image.asset('assets/images/logo.png'),
+                Padding(
+                    child: Image.asset('assets/images/logo.png'),
+                    padding: EdgeInsets.fromLTRB(0, 30, 0, 30)
+                ),
                 reusableTextField("Enter Email", Icons.email, false,
                     _emailTextController, TextInputType.emailAddress),
                 const SizedBox(

@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 
 import '../../utils/const/color_gradient.dart';
 import '../../utils/const/reusable_textfield.dart';
-import 'commentCard.dart';
 
 class myComments extends StatefulWidget{
 

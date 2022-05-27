@@ -134,7 +134,6 @@ class MySearchDelegate extends SearchDelegate{
           onTap: (){
             query = suggestion;
 
-
             showResults(context);
           },
         );

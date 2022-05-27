@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 
 import '../my_recipes/MyComments.dart';
-import 'OtherComments.dart';
-import 'OtherProfile.dart';
 import 'otherRecipeCardDetails.dart';
 
 class OtherRecipesCardView extends StatefulWidget{

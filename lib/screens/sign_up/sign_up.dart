@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:recipeats/screens/search_recipes/search_recipe.dart';
 import 'package:recipeats/utils/const/color_gradient.dart';
+import 'package:recipeats/screens/sign_in/sign_in.dart';
+
 import 'package:recipeats/utils/const/reusable_textfield.dart';
 
 import '../edit_account/newProfile.dart';
@@ -33,6 +35,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
           color: hexStringToColor('3A3B3C'),
         ),
         backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+
         elevation: 0,
         title: Text(
           "Sign Up",
@@ -48,7 +52,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     20, MediaQuery.of(context).size.height * 0.1, 20, 0),
                 child: Column(
                   children: <Widget>[
-                    Image.asset('assets/images/logo.png'),
+                    Padding(
+                      child: Image.asset('assets/images/logo.png'),
+                      padding: EdgeInsets.fromLTRB(0, 30, 0, 30)
+                    ),
                     reusableTextField("Enter Email", Icons.person_outline, false,
                         _emailTextController, TextInputType.emailAddress),
                     const SizedBox(
@@ -67,7 +74,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Text(error),
                     submitButton(context, "Sign Up", () async {
                       SignUp();
-                    })
+                    }),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Already have an account?",
+                    style: TextStyle(color: hexStringToColor('454F8C').withOpacity(0.8))),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SignInScreen()));
+                  },
+                  child: Text(
+                    " Sign In",
+                    style: TextStyle(color: hexStringToColor('454F8C').withOpacity(1.0), fontWeight: FontWeight.bold),
+                  ),
+                )
+              ],
+            )
                   ],
                 ),
               ))),

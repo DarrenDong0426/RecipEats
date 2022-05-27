@@ -29,6 +29,8 @@ class _myCommentsState extends State<myComments>{
   late User _user;
   late String uid = '';
   late String recipeId = '';
+  late String name;
+  late Image i = Image.asset('assets/images/emptyPfp.jpg');
   Map<String, dynamic> comments = {
     'users': [],
     'comment': [],
@@ -120,12 +122,30 @@ class _myCommentsState extends State<myComments>{
     }
   }
 
-  getComment(String user, String comment, String time) {
-    if (user == uid){
+  getUser() async{
+    final docRef = db.collection('users').doc(uid);
+    DocumentSnapshot docSnap = await docRef.get();
+    dynamic data = docSnap.data();
+    name = data['user'];
+    String url = data['pfp'];
+    i = Image.network(url);
+  }
+
+  getComment(String user, String comment, String time){
+      getUser();
       return Container(
         child: Column(
             children: <Widget>[
-              Text(user + ' ' + time),
+              Row(
+                children: <Widget>[
+                  CircleAvatar(
+                    backgroundImage: i.image,
+                    minRadius: 50,
+                    backgroundColor: Colors.white,
+                  ),
+                  Text(name + ' ' + time),
+                ],
+              ),
               Text(comment),
               SizedBox(
                 height: 20,
@@ -133,10 +153,6 @@ class _myCommentsState extends State<myComments>{
           ]
         ),
       );
-    }
-    else {
-      return;
-    }
   }
 
   updateFirebase() async {

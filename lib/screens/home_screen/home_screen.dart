@@ -44,6 +44,20 @@ class _HomeScreenState extends State<Home_Screen>{
   Widget build(BuildContext context) {
     getData();
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        // leading: Icon(Icons.close_rounded),
+        iconTheme: IconThemeData(
+          color: hexStringToColor('3A3B3C'),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        title: Text(
+          "Home",
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3A3B3C')),
+        ),
+      ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -53,16 +67,16 @@ class _HomeScreenState extends State<Home_Screen>{
   }
 
   getChild() {
-    if (Following.length == 0) {
+    if (followerPosts.length == 0) {
       return Padding(
           padding: EdgeInsets.all(35),
           child: Center(child: Text(
-            "You are not following anyone currently. Start following users to see their posts.",))
+            "You are not following anyone currently with any posts. Start following users to see their posts.",))
       );
     }
     else{
       return ListView.builder(
-        itemCount: Following.length,
+        itemCount: followerPosts.length,
         itemBuilder: (context, index){
           return OtherRecipesCardView(recipes: followerPosts[index]);
         },

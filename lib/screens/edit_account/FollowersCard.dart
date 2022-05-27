@@ -32,9 +32,11 @@ class FollowersCardState extends State<FollowersCard>{
     var data = docRef.data();
     url = data!['pfp'];
     username = data['user'];
-    setState(() {
-      i = Image.network(url);
-    });
+    if (mounted){
+      setState(() {
+        i = Image.network(url);
+      });
+  }
   }
 
   @override

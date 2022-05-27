@@ -77,10 +77,11 @@ class _profileState extends State<Profile>{
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          leading: IconButton(
+          automaticallyImplyLeading: false,
+          /*leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () => Navigator.of(context).pop(),
-          ),
+          ),*/
           title: const Text("My Profile", style: TextStyle(color: Colors.black),),
           actions: <Widget>[
             IconButton(

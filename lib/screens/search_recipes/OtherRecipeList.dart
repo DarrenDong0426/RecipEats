@@ -54,6 +54,7 @@ class _OtherRecipeListState extends State<OtherRecipeList>{
           color: hexStringToColor('3A3B3C'),
         ),
         backgroundColor: Colors.transparent,
+
         elevation: 0,
         title: Text(
           "My Recipes",

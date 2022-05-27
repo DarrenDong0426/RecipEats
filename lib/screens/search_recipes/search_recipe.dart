@@ -46,6 +46,12 @@ class _Search_RecipesState extends State<Search_Recipes> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Search'),
+        actions: [
+          IconButton(onPressed: () {showSearch(context: context, delegate: MySearchDelegate(myRecipe));}, icon: const Icon(Icons.search)),
+        ],
+      ),
       body: Container(
         width: MediaQuery
             .of(context)
@@ -64,4 +70,74 @@ class _Search_RecipesState extends State<Search_Recipes> {
       ),
     );
   }
+}
+
+
+class MySearchDelegate extends SearchDelegate{
+
+
+  FirebaseFirestore db = FirebaseFirestore.instance;
+  late List<dynamic> recipes;
+  Map <String, dynamic> name = {};
+  List<dynamic> suggestions = [];
+  List<dynamic> results = [];
+
+  MySearchDelegate(List recipes){
+    this.recipes = recipes;
+    for (int i = 0; i < recipes.length; i++){
+      name[recipes[i]['Name'] + recipes[i]['id']] = recipes[i]['Name'];
+    }
+    print(name);
+  }
+
+  @override
+  List<Widget>? buildActions(BuildContext context) => [
+    IconButton(onPressed: () {if (query.isEmpty){
+      close(context, null);
+    }else{
+      query = '';
+    }
+    }, icon: const Icon(Icons.clear),),
+  ];
+
+  @override
+  Widget? buildLeading(BuildContext context) =>
+      IconButton(onPressed: () => close(context, null), icon: const Icon(Icons.arrow_back),);
+
+
+  @override
+  Widget buildResults(BuildContext context) => Center(
+    child: ListView.builder(
+    itemCount: suggestions.length,
+    itemBuilder: (context, index) {
+      return OtherRecipesCardView(recipes: suggestions[index]);
+    }
+    )
+  );
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    suggestions = recipes.where((element) {
+      final result = element['Name'].toString().toLowerCase();
+      final input = query.toLowerCase();
+
+      return result.contains(input);
+    }).toList();
+
+    print(suggestions);
+
+
+      return ListView.builder(itemCount: suggestions.length, itemBuilder: (context, index){
+        final suggestion = suggestions[index]['Name'];
+        return ListTile(
+          title: Text(suggestion),
+          onTap: (){
+            query = suggestion;
+
+
+            showResults(context);
+          },
+        );
+      },);
+    }
 }

@@ -48,8 +48,11 @@ class _Search_RecipesState extends State<Search_Recipes> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Search'),
+        automaticallyImplyLeading: false,
+        elevation: 0,
+        backgroundColor: Colors.white,
         actions: [
-          IconButton(onPressed: () {showSearch(context: context, delegate: MySearchDelegate(myRecipe));}, icon: const Icon(Icons.search)),
+          IconButton(onPressed: () {showSearch(context: context, delegate: MySearchDelegate(myRecipe));}, icon: const Icon(Icons.search), color: hexStringToColor('3A3B3C'),),
         ],
       ),
       body: Container(

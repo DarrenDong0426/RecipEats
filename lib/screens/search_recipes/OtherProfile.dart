@@ -59,10 +59,11 @@ class _OtherProfileState extends State<OtherProfile>{
     posts = dataOther['posts'];
     followers = dataOther['followers'];
     numOfFollowings = dataOther['following'];
-
-    setState(() {
-      i = Image.network(url);
-    });
+    if (mounted) {
+      setState(() {
+        i = Image.network(url);
+      });
+    }
 
     currId = auth.currentUser!.uid;
     final docRefCurr = db.collection('users').doc(currId);
@@ -153,6 +154,7 @@ class _OtherProfileState extends State<OtherProfile>{
       db.collection('users').doc(currId).update({'following': following});
       followers.add(currId);
       db.collection('users').doc(uid).update({'followers': followers});
+      addNotif();
     }
     else{
       following.remove(uid);
@@ -161,6 +163,22 @@ class _OtherProfileState extends State<OtherProfile>{
       db.collection('users').doc(uid).update({'followers': followers});
     }
     setState(() {});
+  }
+
+  Future<void> addNotif() async {
+    var docRef = await db.collection('users').doc(uid).get();
+    var data = docRef.data();
+    List userId = data!['notifs']['uid'];
+    userId.add(currId);
+    var docRef2 = await db.collection('users').doc(currId).get();
+    var data2 = docRef2.data();
+    var username = data2!['user'];
+    List messages = data['notifs']['message'];
+    messages.add('$username started following you');
+    List recipe = data['notifs']['recipeId'];
+    recipe.add("");
+    Map<String, dynamic> map = {'uid': userId, 'message': messages, 'recipeId': recipe};
+    db.collection('users').doc(uid).update({"notifs": map});
   }
 
 }

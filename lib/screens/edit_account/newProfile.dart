@@ -202,6 +202,11 @@ class _newProfileState extends State<newProfile>{
       "followers": [],
       "favorite_post": [],
       "pfp": ImageUrl,
+      "notifs": {
+        "uid": [],
+        "message": [],
+        'recipeId': [],
+      },
     };
     await db.collection("users").doc(id).set(user);
     Navigator.push(context,

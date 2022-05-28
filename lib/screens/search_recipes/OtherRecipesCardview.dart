@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 
 import '../my_recipes/MyComments.dart';
-import 'OtherComments.dart';
 import 'OtherProfile.dart';
 import 'otherRecipeCardDetails.dart';
 
@@ -67,50 +66,50 @@ class _OtherRecipeCardViewState extends State<OtherRecipesCardView>{
                 Padding(
                   padding: EdgeInsets.all(15),
                 child:
-                    Stack(
+                    Column(
                 children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.all(8),
+                  child: Row(
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => OtherProfile(id: data['id'])));
+                        },
+                        child: CircleAvatar(
+                          backgroundImage: i.image,
+                          maxRadius: 30,
+                          backgroundColor: Colors.white,
+                        ),
+                      ),
+                      Container(width: 15),
+                      Text(data['Author'], style: TextStyle( fontSize: 19),),
+                    ],
+                  )
+                  ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: Image.network(data['food_image'], width: 500, height: 500, fit: BoxFit.fill, alignment: Alignment.center,
+                  child: Image.network(data['food_image'], width: 500, height: 370, fit: BoxFit.fill, alignment: Alignment.center,
                  ),
 
                 ),
-                  Positioned.fill(
-                    top: 10,
-                    child:
-                        Align(
-                          alignment: Alignment.topCenter,
-                      child: Text(data['Name'], style: TextStyle(color: Colors.white, fontSize: 24))
-                        )
+
+
+                  Row(
+                    children: <Widget>[
+                      LikeButton(likeCount: numsOfLike, isLiked: Liked, onTap: updateFirebase),
+                      IconButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => myComments(id: data['Name'] + data['id'])))},
+                        icon: Icon(Icons.chat_bubble_outline),),
+                    ],
                   ),
-                  Positioned(
-                    bottom: 250, right: 15,
-                      //give the values according to your requirement
-                    child:
-                      Column(
-                        children: <Widget>[
-                          LikeButton(likeCount: numsOfLike, isLiked: Liked, onTap: updateFirebase),
-                          IconButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => myComments(id: data['Name'] + data['id'])))},
-                            icon: Icon(Icons.chat_bubble_outline), color: Colors.white,),
-                        ],
-                      )
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child:                   Text(data['Name'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.left,),
 
                   ),
-                  Positioned(
-                    bottom: 10, left: 10,
-                    child:
-                      Row(
-                        children: <Widget>[
-                          CircleAvatar(
-                            backgroundImage: i.image,
-                            maxRadius: 30,
-                            backgroundColor: Colors.white,
-                          ),
-                          Container(width: 15),
-                          Text(data['Author'], style: TextStyle(color: Colors.white, fontSize: 19),),
-                        ],
-                      )
-                  )
+
+
+
                 ]
                 )
                 )
@@ -145,6 +144,7 @@ class _OtherRecipeCardViewState extends State<OtherRecipesCardView>{
           {"favorite_post": favorite});
     }
     else {
+      getNotifs();
       var likes = recipeData['likes'] + 1;
       print(recipeData);
       print(isLiked);
@@ -203,6 +203,25 @@ class _OtherRecipeCardViewState extends State<OtherRecipesCardView>{
       return 0.toString();
     }
     return (max / ratings.length).toString();
+  }
+
+  Future<void> getNotifs() async {
+    var docRef = await db.collection('users').doc(recipeData['id']).get();
+    var data = docRef.data();
+    List userId = data!['notifs']['uid'];
+    var auth = FirebaseAuth.instance;
+    var user = auth.currentUser;
+    String? id = user?.uid;
+    userId.add(id);
+    var docRef2 = await db.collection('users').doc(id).get();
+    var data2 = docRef2.data();
+    var username = data2!['user'];
+    List messages = data['notifs']['message'];
+    messages.add('$username liked your post');
+    List recipe = data['notifs']['recipeId'];
+    recipe.add(recipeData['Name'] + recipeData['id']);
+    Map<String, dynamic> map = {'uid': userId, 'message': messages, 'recipeId': recipe};
+    db.collection('users').doc(recipeData['id']).update({"notifs": map});
   }
 
 }

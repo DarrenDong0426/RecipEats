@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 
 import '../../utils/const/color_gradient.dart';
 import '../../utils/const/reusable_textfield.dart';
-import 'commentCard.dart';
 
 class myComments extends StatefulWidget{
 
@@ -29,7 +28,7 @@ class _myCommentsState extends State<myComments>{
   late User _user;
   late String uid = '';
   late String recipeId = '';
-  late String name;
+  late String name = '';
   late Image i = Image.asset('assets/images/emptyPfp.jpg');
   Map<String, dynamic> comments = {
     'users': [],
@@ -122,17 +121,19 @@ class _myCommentsState extends State<myComments>{
     }
   }
 
-  getUser() async{
-    final docRef = db.collection('users').doc(uid);
+  getUser(String user) async{
+    final docRef = db.collection('users').doc(user);
     DocumentSnapshot docSnap = await docRef.get();
     dynamic data = docSnap.data();
     name = data['user'];
     String url = data['pfp'];
     i = Image.network(url);
+    setState(() {
+    });
   }
 
   getComment(String user, String comment, String time){
-      getUser();
+      getUser(user);
       return Container(
         child: Column(
             children: <Widget>[

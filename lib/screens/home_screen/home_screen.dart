@@ -21,6 +21,8 @@ class _HomeScreenState extends State<Home_Screen>{
   late String uid;
   late List Following = [];
   late List followerPosts = [];
+ // final GlobalKey _LoaderDialog = new GlobalKey();
+
 
 
   Future<void> getData() async {
@@ -29,12 +31,13 @@ class _HomeScreenState extends State<Home_Screen>{
     var docRef = await db.collection('users').doc(uid).get();
     var data = docRef.data();
     Following = data!['following'];
+   // LoaderDialog.showLoadingDialog(context, _LoaderDialog);
     await db.collection('recipes').get().then((value) => value.docs.forEach((result) {
       dynamic data = result.data();
       if (Following.indexOf(data['id']) != -1){
         followerPosts.add(data);
       }
-  }));
+    }));
     if (mounted){
       setState(() {});
     }

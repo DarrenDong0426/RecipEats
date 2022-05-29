@@ -48,7 +48,7 @@ class _myRecipeListState extends State<myRecipeList>{
         iconTheme: IconThemeData(
           color: hexStringToColor('3A3B3C'),
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
           "My Recipes",

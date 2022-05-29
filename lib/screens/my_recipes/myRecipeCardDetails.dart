@@ -53,7 +53,7 @@ class _myRecipeCardDetailsState extends State<myRecipeCardDetails>{
         iconTheme: IconThemeData(
           color: hexStringToColor('3A3B3C'),
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
           data['Name'],

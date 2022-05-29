@@ -25,7 +25,7 @@ class _myRecipeCardDetailsState extends State<myRecipeCardDetails>{
 
   FirebaseFirestore db = FirebaseFirestore.instance;
   late Image i = Image.asset('assets/images/emptyPfp.jpg');
-  String url = '';
+  String url = 'https://firebasestorage.googleapis.com/v0/b/recipeats-24cdd.appspot.com/o/pfp%2Fdongd%40bxscience.edu?alt=media&token=f04b6753-9a41-43e9-94d5-dcd3b4f9cae3';
   late List items = [];
   int post = 0;
 

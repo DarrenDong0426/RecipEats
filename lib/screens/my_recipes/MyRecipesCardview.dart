@@ -121,6 +121,7 @@ class _myRecipeCardViewState extends State<MyRecipeCardView>{
                                     icon: Icon(Icons.chat_bubble_outline),),
                                   IconButton(onPressed: () => {},
                                     icon: Icon(Icons.share),),
+                                  Text('Rating: ' + getRating() + '/5'),
                                 ],
                               ),
                               Column(

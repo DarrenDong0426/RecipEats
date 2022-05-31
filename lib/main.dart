@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:recipeats/screens/search_recipes/search_recipe.dart';
 import 'package:recipeats/screens/sign_in/sign_in.dart';
+import 'package:recipeats/screens/landing_page/landing_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
           future: _initializeFirebase(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              return SignInScreen();
+              return LandingScreen();
             }
             else {
               return new CircularProgressIndicator();

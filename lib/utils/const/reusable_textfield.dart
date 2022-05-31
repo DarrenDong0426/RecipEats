@@ -13,31 +13,51 @@ Image logoWidget(String imageName) {
   );
 }
 
-TextField reusableTextField(String text, IconData icon, bool isPasswordType,
+Container reusableTextField(String text, IconData icon, bool isPasswordType,
     TextEditingController controller, TextInputType type) {
-  return TextField(
+
+  return
+    Container(
+      width: 350,
+      height: 60,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8)
+      ),
+      child:TextField(
     controller: controller,
     obscureText: isPasswordType,
     enableSuggestions: !isPasswordType,
     autocorrect: !isPasswordType,
-    cursorColor: Colors.white,
-    style: TextStyle(color: Colors.white.withOpacity(0.9)),
+    cursorColor: Colors.black,
+    style: TextStyle(color: Colors.black),
     decoration: InputDecoration(
       prefixIcon: Icon(
         icon,
-        color: Colors.white70,
+        color: Color(0xff627f68),
       ),
       labelText: text,
-      labelStyle: TextStyle(color: Colors.white.withOpacity(0.9)),
-      filled: true,
+      labelStyle: TextStyle(color: hexStringToColor('3c403a')),
+      //filled: true,
+
       floatingLabelBehavior: FloatingLabelBehavior.never,
-      fillColor: hexStringToColor('454F8C').withOpacity(0.8),
+      //fillColor: hexStringToColor('454F8C').withOpacity(0.8),
+      /*border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: const BorderSide(color: Color(0xffd76b5b))),*/
       border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.0),
-          borderSide: const BorderSide(width: 0, style: BorderStyle.none)),
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        borderSide: BorderSide(width: 1.0),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Color(0xff627f68).withOpacity(0.7)),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Color(0xff627f68).withOpacity(0.7)),
+      ),
     ),
     keyboardType: type
-  );
+  )
+    );
 }
 
 TextFormField reusableTextField2(IconData icon, bool isPasswordType,
@@ -48,7 +68,7 @@ TextFormField reusableTextField2(IconData icon, bool isPasswordType,
       enableSuggestions: !isPasswordType,
       autocorrect: !isPasswordType,
       cursorColor: Colors.white,
-      style: TextStyle(color: Colors.white.withOpacity(0.9)),
+      style: TextStyle(color: Colors.white.withOpacity(1.0)),
       decoration: InputDecoration(
         prefixIcon: Icon(
           icon,
@@ -57,7 +77,7 @@ TextFormField reusableTextField2(IconData icon, bool isPasswordType,
         labelStyle: TextStyle(color: Colors.white.withOpacity(0.9)),
         filled: true,
         floatingLabelBehavior: FloatingLabelBehavior.never,
-        fillColor: hexStringToColor('454F8C').withOpacity(0.8),
+        fillColor: hexStringToColor('627f68').withOpacity(0.7),
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30.0),
             borderSide: const BorderSide(width: 0, style: BorderStyle.none)),
@@ -76,14 +96,14 @@ TextField reusableTextField3(String text, IconData icon, bool isPasswordType,
       enableSuggestions: !isPasswordType,
       autocorrect: !isPasswordType,
       cursorColor: Colors.white,
-      style: TextStyle(color: Colors.white.withOpacity(0.9)),
+      style: TextStyle(color: Colors.white.withOpacity(1.0)),
       decoration: InputDecoration(
         prefixIcon: Icon(
           icon,
           color: Colors.white70,
         ),
         labelText: text,
-        labelStyle: TextStyle(color: Colors.white.withOpacity(0.9)),
+        labelStyle: TextStyle(color: Colors.white.withOpacity(1.0)),
         filled: true,
         floatingLabelBehavior: FloatingLabelBehavior.never,
        // fillColor: hexStringToColor('454F8C').withOpacity(0.8),
@@ -97,7 +117,7 @@ TextField reusableTextField3(String text, IconData icon, bool isPasswordType,
 
 Container submitButton(BuildContext context, String title, Function onTap) {
   return Container(
-    width: MediaQuery.of(context).size.width,
+    width: 350,
     height: 50,
     margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
     decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
@@ -113,12 +133,12 @@ Container submitButton(BuildContext context, String title, Function onTap) {
       style: ButtonStyle(
           backgroundColor: MaterialStateProperty.resolveWith((states) {
             if (states.contains(MaterialState.pressed)) {
-              return Color(0xffd76b5b);
+              return Color(0xff627f68);
             }
-            return Color(0xffd76b5b);
+            return Color(0xff627f68);
           }),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)))),
     ),
   );
 }

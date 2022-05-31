@@ -32,31 +32,83 @@ class _SignUpScreenState extends State<SignUpScreen> {
       appBar: AppBar(
         // leading: Icon(Icons.close_rounded),
         iconTheme: IconThemeData(
-          color: hexStringToColor('3A3B3C'),
+            color: hexStringToColor('3c403a'),
         ),
-        backgroundColor: Colors.transparent,
-        automaticallyImplyLeading: false,
+        backgroundColor: Colors.white,
+        //automaticallyImplyLeading: false,
 
         elevation: 0,
-        title: Text(
+        /*title: Text(
           "Sign Up",
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3A3B3C')),
-        ),
+        ),*/
       ),
       body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
+              physics: NeverScrollableScrollPhysics(),
               child: Padding(
-                padding: EdgeInsets.fromLTRB(
-                    20, MediaQuery.of(context).size.height * 0.1, 20, 0),
+                //padding: EdgeInsets.fromLTRB(20, MediaQuery.of(context).size.height * 0.1, 20, 0),
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+
                 child: Column(
                   children: <Widget>[
+                    SizedBox(height: 60),
                     Padding(
-                      child: Image.asset('assets/images/logo.png'),
-                      padding: EdgeInsets.fromLTRB(0, 30, 0, 30)
+                      child: Image.asset('assets/images/welcome.png', height: 270,),
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 0)
                     ),
-                    reusableTextField("Enter Email", Icons.person_outline, false,
+                    Container(
+                      decoration: new BoxDecoration(
+                        borderRadius: new BorderRadius.circular(8.0),
+                        //color: Color(0xfff2f3f3),
+                      ),
+                      width: double.infinity,
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(10, 40, 10, 40),
+                        child: Column(
+                          children: <Widget>[
+                            Text("Sign Up", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: hexStringToColor('3c403a')),),
+                            SizedBox(height: 20),
+                            reusableTextField("Enter Email", Icons.person_outline, false,
+                                _emailTextController, TextInputType.emailAddress),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        reusableTextField("Enter Password", Icons.lock_outlined, true,
+                            _passwordTextController, TextInputType.visiblePassword),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        reusableTextField("Re-Enter Password", Icons.lock_outlined, true,
+                            _repasswordTextController, TextInputType.visiblePassword),
+                        Text(error),
+                        submitButton(context, "Sign Up", () async {
+                          SignUp();
+                        }),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Already have an account?",
+                                    style: TextStyle(color: hexStringToColor('627f68').withOpacity(0.8))),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) => SignInScreen()));
+                                  },
+                                  child: Text(
+                                    " Sign In",
+                                    style: TextStyle(color: hexStringToColor('3c403a').withOpacity(1.0), fontWeight: FontWeight.bold),
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    /*reusableTextField("Enter Email", Icons.person_outline, false,
                         _emailTextController, TextInputType.emailAddress),
                     const SizedBox(
                       height: 20,
@@ -74,24 +126,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Text(error),
                     submitButton(context, "Sign Up", () async {
                       SignUp();
-                    }),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Already have an account?",
-                    style: TextStyle(color: hexStringToColor('454F8C').withOpacity(0.8))),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SignInScreen()));
-                  },
-                  child: Text(
-                    " Sign In",
-                    style: TextStyle(color: hexStringToColor('454F8C').withOpacity(1.0), fontWeight: FontWeight.bold),
-                  ),
-                )
-              ],
-            )
+                    }),*/
+
                   ],
                 ),
               ))),

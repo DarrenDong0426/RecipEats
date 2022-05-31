@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tags/flutter_tags.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:recipeats/screens/add_recipes/tagDialog.dart';
 import 'package:recipeats/utils/const/text_constants.dart';
 
@@ -63,6 +64,19 @@ class _addRecipesState extends State<addRecipes>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: hexStringToColor('3A3B3C'),
+        ),
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
+        elevation: 0,
+        title: Text(
+          "Upload Recipe",
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3A3B3C')),
+        ),
+      ),
       body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
@@ -262,6 +276,7 @@ class _addRecipesState extends State<addRecipes>{
       "food_image": url,
       'likes': 0,
       'tags': items,
+      'time': DateFormat.yMMMMd().format(DateTime.now()),
       'comment': {'users': [],
         'comment': [],
         'times': [],}

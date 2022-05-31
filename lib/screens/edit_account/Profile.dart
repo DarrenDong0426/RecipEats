@@ -109,54 +109,142 @@ class _profileState extends State<Profile>{
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget> [CircleAvatar(
                               backgroundImage: i.image,
-                              minRadius: 55,
-                              maxRadius: 55,
+                              minRadius: 40,
+                              maxRadius: 40,
                               backgroundColor: Colors.white,
-                            ),]),
-                            Container(height: 5),
+                            ),
+                              Column(
+                              children: <Widget>[
+                                SizedBox(height: 10),
+                                Row(
+                              children: <Widget>[
+                                TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewFollowers())),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text("Followers", style: TextStyle(fontSize: 17, color: Colors.black),),
+                                      Container(height: 5),
+                                      Text(followers.toString(), style: TextStyle(fontSize: 14, color: Color(0xffd76b5b)),)
+                                    ],
+                                  )),
+                              TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewFollowings())),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text("Following", style: TextStyle(fontSize: 17, color: Colors.black),),
+                                      Container(height: 5),
+                                      Text(followings.toString(), style: TextStyle(fontSize: 14, color: Color(0xffd76b5b)),)
+                                    ],
+                                  )),
+                              TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => myRecipeList())),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text("Posts", style: TextStyle(fontSize: 17, color: Colors.black),),
+                                      Container(height: 5),
+                                      Text(posts.toString(), style: TextStyle(fontSize: 14, color: Color(0xffd76b5b)),)
+                                    ],
+                                  ))
+                            ]
+                                ),
+                                Row(
 
-                            Text(_userTextController.text, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                            Container(height: 5),
-                            Row(
+                                  children: <Widget>[
+                                    Container(
+                                      width: 250,
+                                      height: 35,
+                                      //constraints: BoxConstraints.expand(),
+
+                                      margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
+                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
+                                      child: ElevatedButton(
+                                        onPressed: () async {
+
+                                          Navigator.push(context,
+                                              MaterialPageRoute(builder: (context) => Edit_Account()));
+
+                                        },
+                                        child: Text(
+                                          "Edit profile",
+                                          style: const TextStyle(
+                                              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                                        ),
+                                        style: ButtonStyle(
+                                            backgroundColor: MaterialStateProperty.resolveWith((states) {
+                                              if (states.contains(MaterialState.pressed)) {
+                                                return Color(0xffd76b5b);
+                                              }
+                                              return Color(0xffd76b5b);
+                                            }),
+                                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ]
+                              )
+    ]),
+
+                            Padding(
+                                padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
+                              child:  Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(_userTextController.text, style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                              child:   Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(_biographyTextController.text, style: TextStyle(fontSize: 14)),
+                              ),
+                            ),
+
+
+
+
+                           /* Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewFollowers())),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      Text("Followers", style: TextStyle(fontSize: 20, color: Colors.black),),
+                                      Text("Followers", style: TextStyle(fontSize: 17, color: Colors.black),),
                                       Container(height: 5),
-                                      Text(followers.toString(), style: TextStyle(fontSize: 17, color: Color(0xffd76b5b)),)
+                                      Text(followers.toString(), style: TextStyle(fontSize: 14, color: Color(0xffd76b5b)),)
                                     ],
                                   )),
                                 TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewFollowings())),
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: <Widget>[
-                                        Text("Following", style: TextStyle(fontSize: 20, color: Colors.black),),
+                                        Text("Following", style: TextStyle(fontSize: 17, color: Colors.black),),
                                         Container(height: 5),
-                                        Text(followings.toString(), style: TextStyle(fontSize: 17, color: Color(0xffd76b5b)),)
+                                        Text(followings.toString(), style: TextStyle(fontSize: 14, color: Color(0xffd76b5b)),)
                                       ],
                                     )),
                                 TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => myRecipeList())),
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: <Widget>[
-                                        Text("Posts", style: TextStyle(fontSize: 20, color: Colors.black),),
+                                        Text("Posts", style: TextStyle(fontSize: 17, color: Colors.black),),
                                         Container(height: 5),
-                                        Text(posts.toString(), style: TextStyle(fontSize: 17, color: Color(0xffd76b5b)),)
+                                        Text(posts.toString(), style: TextStyle(fontSize: 14, color: Color(0xffd76b5b)),)
                                       ],
                                     ))
                               ],
-                              /*children: <Widget>[
+
+          )*/
+
+                          ],
+                        ),
+                        /*children: <Widget>[
                             TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewFollowers())), child: Text('Followers:\n' + followers.toString(), style: TextStyle(fontSize: 13),),),
                             TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewFollowings())), child: Text('Followings:\n' + followings.toString(), style: TextStyle(fontSize: 13),)),
                             TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => myRecipeList())), child: Text('My Recipes:\n' + posts.toString(), style: TextStyle(fontSize: 13),)),
                             ]*/
-          )
-                          ],
-                        ),
-
                         /*Text("Email: " + _EmailTextController.text),
                         const SizedBox(
                           height: 20,
@@ -179,7 +267,7 @@ class _profileState extends State<Profile>{
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) => Edit_Account()));
                         }),*/
-                        Container(
+                      /*  Container(
                           width: MediaQuery.of(context).size.width,
                           height: 50,
                           margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
@@ -206,7 +294,7 @@ class _profileState extends State<Profile>{
                                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                     RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
                           ),
-                        ),
+                        ),*/
                         Container(
                           width: MediaQuery.of(context).size.width,
                           height: 50,

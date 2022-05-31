@@ -64,12 +64,27 @@ class _OtherRecipeCardViewState extends State<OtherRecipesCardView>{
                     ]
                 ),*/
                 Padding(
-                  padding: EdgeInsets.all(15),
+                  padding: EdgeInsets.fromLTRB(15, 15, 15, 25),
                 child:
-                    Column(
+                    Container(
+                      padding: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                    child: Column(
+
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.all(8),
+                    padding: EdgeInsets.fromLTRB(12, 0, 12, 8),
                   child: Row(
                     children: <Widget>[
                       GestureDetector(
@@ -78,39 +93,66 @@ class _OtherRecipeCardViewState extends State<OtherRecipesCardView>{
                         },
                         child: CircleAvatar(
                           backgroundImage: i.image,
-                          maxRadius: 30,
+                          maxRadius: 25,
                           backgroundColor: Colors.white,
                         ),
                       ),
                       Container(width: 15),
-                      Text(data['Author'], style: TextStyle( fontSize: 19),),
+                      Text(data['Author'], style: TextStyle( fontSize: 15, fontWeight: FontWeight.bold),),
                     ],
                   )
                   ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: Image.network(data['food_image'], width: 500, height: 370, fit: BoxFit.fill, alignment: Alignment.center,
+                  child: Image.network(data['food_image'], width: 500, height: 270, fit: BoxFit.fill, alignment: Alignment.center,
                  ),
 
                 ),
 
 
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    //mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      LikeButton(likeCount: numsOfLike, isLiked: Liked, onTap: updateFirebase),
+                      LikeButton(likeCount: numsOfLike, isLiked: Liked, onTap: updateFirebase, circleColor:
+                      CircleColor(start: Colors.white, end: Color(0xff0099cc))),
                       IconButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => myComments(id: data['Name'] + data['id'])))},
                         icon: Icon(Icons.chat_bubble_outline),),
+                      IconButton(onPressed: () => {},
+                        icon: Icon(Icons.share),),
+                      Text('Rating: ' + getRating() + '/5'),
                     ],
                   ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child:                   Text(data['Name'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.left,),
+                  Column(
 
-                  ),
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                         child:
+                          Text(data['Name'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child:
+                          Text(data['time'], style: TextStyle(fontSize: 13)),
+                        )
+                      ]),
+                 /* Align(
+                    alignment: Alignment.centerLeft,
+                    child:
+                    Column(
+
+                    children: <Widget>[
+                      Text(data['Name'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      Text(data['time'], style: TextStyle(fontSize: 15)),
+
+                    ])
+                  ),*/
 
 
 
                 ]
+                )
                 )
                 )
               ],

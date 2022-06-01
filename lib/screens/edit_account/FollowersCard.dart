@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../utils/const/color_gradient.dart';
 import '../search_recipes/OtherProfile.dart';
 
 class FollowersCard extends StatefulWidget{
@@ -56,7 +57,7 @@ class FollowersCardState extends State<FollowersCard>{
               backgroundColor: Colors.white,
             ),
           ),
-          Text(username, style: TextStyle(color: Colors.black),),
+          Text(username, style: TextStyle(color: hexStringToColor('3c403a')),),
         ],
       ),
     );

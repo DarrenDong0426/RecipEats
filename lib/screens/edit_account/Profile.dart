@@ -122,7 +122,7 @@ class _profileState extends State<Profile>{
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      Text("Followers", style: TextStyle(fontSize: 17, color: Colors.black),),
+                                      Text("Followers", style: TextStyle(fontSize: 17, color: hexStringToColor('3c403a')),),
                                       Container(height: 5),
                                       Text(followers.toString(), style: TextStyle(fontSize: 14, color: Color(0xffd76b5b)),)
                                     ],

@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 
+import '../../utils/const/color_gradient.dart';
 import '../my_recipes/MyComments.dart';
 import 'OtherProfile.dart';
 import 'otherRecipeCardDetails.dart';
@@ -98,7 +99,7 @@ class _OtherRecipeCardViewState extends State<OtherRecipesCardView>{
                         ),
                       ),
                       Container(width: 15),
-                      Text(data['Author'], style: TextStyle( fontSize: 15, fontWeight: FontWeight.bold),),
+                      Text(data['Author'], style: TextStyle( fontSize: 15, fontWeight: FontWeight.bold,color: hexStringToColor('3c403a')),),
                     ],
                   )
                   ),
@@ -129,7 +130,7 @@ class _OtherRecipeCardViewState extends State<OtherRecipesCardView>{
                         Align(
                           alignment: Alignment.centerLeft,
                          child:
-                          Text(data['Name'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                          Text(data['Name'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: hexStringToColor('3c403a'))),
                         ),
                         Align(
                           alignment: Alignment.centerLeft,

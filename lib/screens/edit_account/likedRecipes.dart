@@ -55,13 +55,13 @@ class _likedRecipesState extends State<likedRecipes>{
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: hexStringToColor('3A3B3C'),
+          color: hexStringToColor('3c403a'),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
           "Liked Recipes",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3A3B3C')),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3c403a')),
         ),
       ),
       body: Container(

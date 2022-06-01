@@ -125,7 +125,7 @@ class _editAccountState extends State<Edit_Account> {
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           iconTheme: IconThemeData(
-            color: hexStringToColor('3A3B3C'),
+            color: hexStringToColor('3c403a'),
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -133,7 +133,7 @@ class _editAccountState extends State<Edit_Account> {
             "Edit Account",
             style: TextStyle(fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: hexStringToColor('3A3B3C')),
+                color: hexStringToColor('3c403a')),
           ),
         ),
         body: Container(
@@ -193,18 +193,18 @@ class _editAccountState extends State<Edit_Account> {
                             autocorrect: true,
                             cursorColor: Colors.white,
                             style: TextStyle(
-                                color: Colors.white.withOpacity(0.9)),
+                                color: Colors.white.withOpacity(1.0)),
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.info,
                                 color: Colors.white70,
                               ),
                               labelStyle: TextStyle(
-                                  color: Colors.white.withOpacity(0.9)),
+                                  color: Colors.white.withOpacity(1.0)),
                               filled: true,
                               floatingLabelBehavior: FloatingLabelBehavior
                                   .never,
-                              fillColor: hexStringToColor('454F8C').withOpacity(
+                              fillColor: hexStringToColor('627f68').withOpacity(
                                   0.8),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30.0),

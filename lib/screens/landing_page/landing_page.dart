@@ -71,7 +71,7 @@ class _LandingScreenState extends State<LandingScreen> {
                     child: Image.asset("assets/images/logo.png", width: 300),
                     alignment: Alignment.topCenter,
                   ),
-                  SizedBox(height: 35),
+                  SizedBox(height: 43),
                   Align(
                     child: Image.asset("assets/images/cooking2.png", width: 400,),
                     alignment: Alignment.topCenter,

@@ -52,7 +52,7 @@ class _Search_RecipesState extends State<Search_Recipes> {
         elevation: 0,
         backgroundColor: Colors.white,
         actions: [
-          IconButton(onPressed: () {showSearch(context: context, delegate: MySearchDelegate(myRecipe));}, icon: const Icon(Icons.search), color: hexStringToColor('3A3B3C'),),
+          IconButton(onPressed: () {showSearch(context: context, delegate: MySearchDelegate(myRecipe));}, icon: const Icon(Icons.search), color: hexStringToColor('3c403a'),),
         ],
       ),
       body: Container(

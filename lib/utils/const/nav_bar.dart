@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:recipeats/utils/const/color_gradient.dart';
 
 import '../../screens/add_recipes/add_recipes.dart';
 import '../../screens/edit_account/Profile.dart';
@@ -36,7 +37,7 @@ class _navBarState extends State<navBar> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        backgroundColor: Color(0xffd76b5b),
+        backgroundColor: hexStringToColor('d76b5b'),
         onPressed: () {
           setState(() {
             index = 2;

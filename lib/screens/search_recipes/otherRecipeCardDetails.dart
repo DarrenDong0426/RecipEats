@@ -69,13 +69,13 @@ class _OtherRecipeCardDetailsState extends State<OtherRecipeCardDetails>{
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: hexStringToColor('3A3B3C'),
+            color: hexStringToColor('3c403a'),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
           data['Name'],
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3A3B3C')),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3c403a')),
         ),
       ),
       body: SingleChildScrollView(child: Column(
@@ -107,7 +107,7 @@ class _OtherRecipeCardDetailsState extends State<OtherRecipeCardDetails>{
               half: Image.asset('assets/images/2.png'),
               empty: Image.asset('assets/images/3.png'),
             ),
-            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
             onRatingUpdate: (rating) {
               ratings.add(rating);
               updateFirebase(rating);

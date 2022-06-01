@@ -46,6 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
+          color: Colors.white,
           child: SingleChildScrollView(
               physics: NeverScrollableScrollPhysics(),
               child: Padding(
@@ -56,13 +57,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   children: <Widget>[
                     SizedBox(height: 60),
                     Padding(
+
                       child: Image.asset('assets/images/welcome.png', height: 270,),
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 0)
                     ),
                     Container(
                       decoration: new BoxDecoration(
                         borderRadius: new BorderRadius.circular(8.0),
-                        //color: Color(0xfff2f3f3),
+                        color: Colors.white,
                       ),
                       width: double.infinity,
                       child: Padding(

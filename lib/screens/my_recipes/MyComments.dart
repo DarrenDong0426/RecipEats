@@ -57,13 +57,13 @@ class _myCommentsState extends State<myComments>{
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: hexStringToColor('3A3B3C'),
+          color: hexStringToColor('3c403a'),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
           "Comments",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3A3B3C')),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3c403a')),
         ),
       ),
       body: Container(
@@ -84,12 +84,12 @@ class _myCommentsState extends State<myComments>{
               autocorrect: true,
               cursorColor: Colors.black,
 
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: TextStyle(color: hexStringToColor('3c403a'), fontSize: 16),
               decoration: InputDecoration(
                 fillColor: Colors.white,
                   contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 20),
                 isDense: true,
-                labelStyle: TextStyle(color: Colors.black),
+                labelStyle: TextStyle(color: hexStringToColor('3c403a')),
                 filled: true,
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 //fillColor: hexStringToColor('454F8C').withOpacity(0.8),

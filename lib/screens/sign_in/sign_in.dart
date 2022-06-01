@@ -88,6 +88,7 @@ class _SignInScreenState extends State<SignInScreen> {
       body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
+          color: Colors.white,
           child: SingleChildScrollView(
               child: Padding(
                 //padding: EdgeInsets.fromLTRB(20, MediaQuery.of(context).size.height * 0.1, 20, 0),
@@ -103,7 +104,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     Container(
                       decoration: new BoxDecoration(
                         borderRadius: new BorderRadius.circular(8.0),
-                        color: Color(0xfff2f3f3),
+                        color: Colors.white,
                       ),
                       width: double.infinity,
                       child: Padding(

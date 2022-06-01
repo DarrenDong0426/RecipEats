@@ -47,7 +47,7 @@ class viewOtherFollowingState extends State<viewOtherFollowings>{
         elevation: 0,
         title: Text(
           "Followers",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3A3B3C')),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: hexStringToColor('3c403a')),
         ),
       ),
       body: Container(

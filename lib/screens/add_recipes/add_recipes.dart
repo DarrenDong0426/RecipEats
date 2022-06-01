@@ -41,6 +41,8 @@ class _addRecipesState extends State<addRecipes>{
   late Map<String, bool> tags = new Map();
   late List items = [];
   int posts = 0;
+  static List<String> stepsList = [];
+  List<Widget> stepsFields = [];
   String error = '';
 
   getData() async {
@@ -92,30 +94,8 @@ class _addRecipesState extends State<addRecipes>{
                       const SizedBox(
                         height: 20,
                       ),
-                      TextFormField(
-                          minLines: 1,
-                          maxLines: 5,
-                          controller: _infoTextController,
-                          enableSuggestions: true,
-                          autocorrect: true,
-                          cursorColor: Colors.white,
-                          style: TextStyle(color: Colors.white.withOpacity(0.9)),
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.warning,
-                              color: Colors.white70,
-                            ),
-                            label: Text("Summary (INCLUDE ALLERGENS!)"),
-                            labelStyle: TextStyle(color: Colors.white.withOpacity(0.9)),
-                            filled: true,
-                            floatingLabelBehavior: FloatingLabelBehavior.never,
-                            fillColor: hexStringToColor('454F8C').withOpacity(0.8),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                                borderSide: const BorderSide(width: 0, style: BorderStyle.none)),
-                          ),
-                          keyboardType: TextInputType.multiline
-                      ),
+                      reusableTextField("Summary", Icons.warning, false,
+                          _infoTextController, TextInputType.multiline),
                       const SizedBox(
                         height: 20,
                       ),
@@ -129,65 +109,46 @@ class _addRecipesState extends State<addRecipes>{
                       const SizedBox(
                         height: 20,
                       ),
-                      TextFormField(
-                          minLines: 1,
-                          maxLines: 5,
-                          controller: _ingredientsTextController,
-                          enableSuggestions: true,
-                          autocorrect: true,
-                          cursorColor: Colors.white,
-                          style: TextStyle(color: Colors.white.withOpacity(0.9)),
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.format_list_bulleted_rounded,
-                              color: Colors.white70,
-                            ),
-                            label: Text("Ingredients and Kitchenwares"),
-                            labelStyle: TextStyle(color: Colors.white.withOpacity(0.9)),
-                            filled: true,
-                            floatingLabelBehavior: FloatingLabelBehavior.never,
-                            fillColor: hexStringToColor('454F8C').withOpacity(0.8),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                                borderSide: const BorderSide(width: 0, style: BorderStyle.none)),
-                          ),
-                          keyboardType: TextInputType.multiline
-                      ),
+                      reusableTextField("Ingredients + Kitchenware",  Icons.format_list_bulleted_rounded, false,
+                          _ingredientsTextController, TextInputType.multiline),
                       const SizedBox(
                         height: 20,
                       ),
-                      TextFormField(
-                          minLines: 1,
-                          maxLines: 5,
-                          controller: _stepsTextController,
-                          enableSuggestions: true,
-                          autocorrect: true,
-                          cursorColor: Colors.white,
-                          style: TextStyle(color: Colors.white.withOpacity(0.9)),
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.format_list_numbered_sharp,
-                              color: Colors.white70,
-                            ),
-                            label: Text("Numbered Steps"),
-                            labelStyle: TextStyle(color: Colors.white.withOpacity(0.9)),
-                            filled: true,
-                            floatingLabelBehavior: FloatingLabelBehavior.never,
-                            fillColor: hexStringToColor('454F8C').withOpacity(0.8),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                                borderSide: const BorderSide(width: 0, style: BorderStyle.none)),
+                      reusableTextField("Numbered Steps",  Icons.format_list_numbered_sharp, false,
+                          _stepsTextController, TextInputType.multiline),
+                      Center(
+                          child: Container(
+                        padding: EdgeInsets.all(60),
+
+                          width: double.infinity,
+                          margin: EdgeInsets.all(60),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Color(0xff627f68)),
+
+                            borderRadius: BorderRadius.circular(8),
+
                           ),
-                          keyboardType: TextInputType.multiline
-                      ),
-                      IconButton(icon: link, iconSize: 300, onPressed: () => {AddImages()},),
-                      ElevatedButton(onPressed: () => {getTag()}, child: Text("Add Tags", style: TextStyle(color: Colors.white.withOpacity(0.9)),), style: ButtonStyle(backgroundColor: MaterialStateProperty.all(hexStringToColor('454F8C').withOpacity(0.8),), shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))))),
+                        child:
+                        Column(
+
+                          children:
+                          <Widget>[
+                            IconButton(icon: Icon(Icons.cloud_upload_outlined), iconSize: 50, onPressed: () => {AddImages()},),
+                            Text("Upload image")
+                        ])
+                      )),
+                      //IconButton(icon: link, iconSize: 300, onPressed: () => {AddImages()},),
+                      ElevatedButton(onPressed: () => {getTag()}, child: Text("Add Tags", style: TextStyle(color: Colors.white.withOpacity(0.9)),), style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xff627f68),), shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))))),
                       Tags(
+
                         itemCount: items.length,
                         itemBuilder: (int index){
                           String item = items[index];
                           return ItemTags(index: index, title: item, removeButton: ItemTagsRemoveButton(
+                            backgroundColor: Color(0xff627f68),
+                            color: Color(0xff627f68),
+
                             onRemoved: (){
                               setState(() {
                                 items.removeAt(index);
@@ -197,6 +158,8 @@ class _addRecipesState extends State<addRecipes>{
                           ));
                         },
                       ),
+                      //..._getSteps(),
+
                       Text(error),
                       submitButton(context, "Submit", () async {
                         CheckInput();
@@ -207,6 +170,53 @@ class _addRecipesState extends State<addRecipes>{
               )),
     );
   }
+  /*Widget _getSteps(){
+    return new Row(children: stepsFields.map((item) => new Text());
+  }*/
+ /* List<Widget> _getSteps(){
+    List<Widget> stepsFields = [];
+    for(int i=0; i<stepsList.length; i++){
+      stepsFields.add(
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: Row(
+              children: [
+                Expanded(child: StepTextFields(i)),
+                SizedBox(width: 16,),
+
+                _addRemoveButton(i == stepsList.length-1, i),
+              ],
+            ),
+          )
+      );
+    }
+    return stepsFields;
+  }
+
+  Widget _addRemoveButton(bool add, int index){
+    return InkWell(
+      onTap: (){
+        if(add){
+          // add new text-fields at the top of all friends textfields
+          stepsList.insert(0, "");
+        }
+        else stepsList.removeAt(index);
+        setState((){});
+      },
+      child: Container(
+        width: 30,
+        height: 30,
+        decoration: BoxDecoration(
+          color: (add) ? Colors.green : Colors.red,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Icon((add) ? Icons.add : Icons.remove, color: Colors.white,),
+      ),
+    );
+  }
+*/
+
+
 
   void CheckInput(){
     if (_titleTextController.text == ""){
@@ -340,3 +350,45 @@ class _addRecipesState extends State<addRecipes>{
   }
 
 }
+
+/*class StepTextFields extends StatefulWidget {
+  final int index;
+  StepTextFields(this.index);
+  @override
+  _StepTextFieldsState createState() => _StepTextFieldsState();
+}
+
+class _StepTextFieldsState extends State<StepTextFields> {
+  late TextEditingController _nameController;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _nameController.text = _addRecipesState.stepsList[widget.index] ?? '';
+    });
+
+    return TextFormField(
+      controller: _nameController,
+      onChanged: (v) => _addRecipesState.stepsList[widget.index] = v,
+      decoration: InputDecoration(
+          hintText: 'Enter your friend\'s name'
+      ),
+      validator: (v) {
+        if (v!.trim().isEmpty) return 'Please enter something';
+        return null;
+      },
+    );
+  }*/
+

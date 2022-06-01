@@ -12,6 +12,7 @@ import 'package:recipeats/screens/sign_in/sign_in.dart';
 import 'package:recipeats/utils/const/reusable_textfield.dart';
 
 import '../../utils/const/color_gradient.dart';
+import '../../utils/const/loading.dart';
 import '../../utils/const/nav_bar.dart';
 import '../my_recipes/my_recipes.dart';
 import 'edit_account.dart';
@@ -71,140 +72,145 @@ class _profileState extends State<Profile>{
     User? user = auth.currentUser;
     uid = user!.uid;
     _EmailTextController.text = user.email!;
-    getDocSnap();
-
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          automaticallyImplyLeading: false,
-          /*leading: IconButton(
+    return FutureBuilder(
+      future: getDocSnap(),
+      builder: (context, snapshot){
+        if (url == ''){
+          return Loading();
+        }
+        else{
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              automaticallyImplyLeading: false,
+              /*leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () => Navigator.of(context).pop(),
           ),*/
-          title: const Text("My Profile", style: TextStyle(color: Colors.black),),
-          actions: <Widget>[
-            IconButton(
-              onPressed: () async {
-                _signOut();
-              },
-              icon: Icon(Icons.logout),
-              color: Color(0xffd765b5b),
+              title: const Text("My Profile", style: TextStyle(color: Colors.black),),
+              actions: <Widget>[
+                IconButton(
+                  onPressed: () async {
+                    _signOut();
+                  },
+                  icon: Icon(Icons.logout),
+                  color: Color(0xffd765b5b),
+                ),
+              ],
             ),
-          ],
-        ),
-        body: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: SingleChildScrollView(
-                child: Padding(
-                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Column(
+            body: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: SingleChildScrollView(
+                    child: Padding(
+                        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            Row(
+                            Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget> [CircleAvatar(
-                              backgroundImage: i.image,
-                              minRadius: 40,
-                              maxRadius: 40,
-                              backgroundColor: Colors.white,
-                            ),
-                              Column(
                               children: <Widget>[
-                                SizedBox(height: 10),
                                 Row(
-                              children: <Widget>[
-                                TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewFollowers())),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text("Followers", style: TextStyle(fontSize: 17, color: hexStringToColor('3c403a')),),
-                                      Container(height: 5),
-                                      Text(followers.toString(), style: TextStyle(fontSize: 14, color: Color(0xffd76b5b)),)
-                                    ],
-                                  )),
-                              TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewFollowings())),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text("Following", style: TextStyle(fontSize: 17, color: Colors.black),),
-                                      Container(height: 5),
-                                      Text(followings.toString(), style: TextStyle(fontSize: 14, color: Color(0xffd76b5b)),)
-                                    ],
-                                  )),
-                              TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => myRecipeList())),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text("Posts", style: TextStyle(fontSize: 17, color: Colors.black),),
-                                      Container(height: 5),
-                                      Text(posts.toString(), style: TextStyle(fontSize: 14, color: Color(0xffd76b5b)),)
-                                    ],
-                                  ))
-                            ]
-                                ),
-                                Row(
-
-                                  children: <Widget>[
-                                    Container(
-                                      width: 250,
-                                      height: 35,
-                                      //constraints: BoxConstraints.expand(),
-
-                                      margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
-                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
-                                      child: ElevatedButton(
-                                        onPressed: () async {
-
-                                          Navigator.push(context,
-                                              MaterialPageRoute(builder: (context) => Edit_Account()));
-
-                                        },
-                                        child: Text(
-                                          "Edit profile",
-                                          style: const TextStyle(
-                                              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
-                                        ),
-                                        style: ButtonStyle(
-                                            backgroundColor: MaterialStateProperty.resolveWith((states) {
-                                              if (states.contains(MaterialState.pressed)) {
-                                                return Color(0xffd76b5b);
-                                              }
-                                              return Color(0xffd76b5b);
-                                            }),
-                                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
-                                      ),
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: <Widget> [CircleAvatar(
+                                      backgroundImage: i.image,
+                                      minRadius: 40,
+                                      maxRadius: 40,
+                                      backgroundColor: Colors.white,
                                     ),
-                                  ],
-                                )
-                              ]
-                              )
-    ]),
+                                      Column(
+                                          children: <Widget>[
+                                            SizedBox(height: 10),
+                                            Row(
+                                                children: <Widget>[
+                                                  TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewFollowers())),
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: <Widget>[
+                                                          Text("Followers", style: TextStyle(fontSize: 17, color: hexStringToColor('3c403a')),),
+                                                          Container(height: 5),
+                                                          Text(followers.toString(), style: TextStyle(fontSize: 14, color: Color(0xffd76b5b)),)
+                                                        ],
+                                                      )),
+                                                  TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewFollowings())),
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: <Widget>[
+                                                          Text("Following", style: TextStyle(fontSize: 17, color: Colors.black),),
+                                                          Container(height: 5),
+                                                          Text(followings.toString(), style: TextStyle(fontSize: 14, color: Color(0xffd76b5b)),)
+                                                        ],
+                                                      )),
+                                                  TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => myRecipeList())),
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: <Widget>[
+                                                          Text("Posts", style: TextStyle(fontSize: 17, color: Colors.black),),
+                                                          Container(height: 5),
+                                                          Text(posts.toString(), style: TextStyle(fontSize: 14, color: Color(0xffd76b5b)),)
+                                                        ],
+                                                      ))
+                                                ]
+                                            ),
+                                            Row(
 
-                            Padding(
-                                padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
-                              child:  Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(_userTextController.text, style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                              child:   Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(_biographyTextController.text, style: TextStyle(fontSize: 14)),
-                              ),
-                            ),
+                                              children: <Widget>[
+                                                Container(
+                                                  width: 250,
+                                                  height: 35,
+                                                  //constraints: BoxConstraints.expand(),
+
+                                                  margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
+                                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
+                                                  child: ElevatedButton(
+                                                    onPressed: () async {
+
+                                                      Navigator.push(context,
+                                                          MaterialPageRoute(builder: (context) => Edit_Account()));
+
+                                                    },
+                                                    child: Text(
+                                                      "Edit profile",
+                                                      style: const TextStyle(
+                                                          color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                                                    ),
+                                                    style: ButtonStyle(
+                                                        backgroundColor: MaterialStateProperty.resolveWith((states) {
+                                                          if (states.contains(MaterialState.pressed)) {
+                                                            return Color(0xffd76b5b);
+                                                          }
+                                                          return Color(0xffd76b5b);
+                                                        }),
+                                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                                            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ]
+                                      )
+                                    ]),
+
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
+                                  child:  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(_userTextController.text, style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                  child:   Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(_biographyTextController.text, style: TextStyle(fontSize: 14)),
+                                  ),
+                                ),
 
 
 
 
-                           /* Row(
+                                /* Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewFollowers())),
@@ -238,14 +244,14 @@ class _profileState extends State<Profile>{
 
           )*/
 
-                          ],
-                        ),
-                        /*children: <Widget>[
+                              ],
+                            ),
+                            /*children: <Widget>[
                             TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewFollowers())), child: Text('Followers:\n' + followers.toString(), style: TextStyle(fontSize: 13),),),
                             TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewFollowings())), child: Text('Followings:\n' + followings.toString(), style: TextStyle(fontSize: 13),)),
                             TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => myRecipeList())), child: Text('My Recipes:\n' + posts.toString(), style: TextStyle(fontSize: 13),)),
                             ]*/
-                        /*Text("Email: " + _EmailTextController.text),
+                            /*Text("Email: " + _EmailTextController.text),
                         const SizedBox(
                           height: 20,
                         ),
@@ -263,11 +269,11 @@ class _profileState extends State<Profile>{
                         ),
                         Text("Biography: " + _biographyTextController.text),*/
 
-                        /*submitButton(context, "Edit profile", () async {
+                            /*submitButton(context, "Edit profile", () async {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) => Edit_Account()));
                         }),*/
-                      /*  Container(
+                            /*  Container(
                           width: MediaQuery.of(context).size.width,
                           height: 50,
                           margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
@@ -295,42 +301,48 @@ class _profileState extends State<Profile>{
                                     RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
                           ),
                         ),*/
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 50,
-                          margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
-                          child: ElevatedButton(
-                            onPressed: () async {
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 50,
+                              margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
+                              child: ElevatedButton(
+                                onPressed: () async {
 
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => likedRecipes()));
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) => likedRecipes()));
 
-                            },
-                            child: Text(
-                              "Liked Recipe",
-                              style: const TextStyle(
-                                  color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                                },
+                                child: Text(
+                                  "Liked Recipe",
+                                  style: const TextStyle(
+                                      color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                                ),
+                                style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.resolveWith((states) {
+                                      if (states.contains(MaterialState.pressed)) {
+                                        return Color(0xffd76b5b);
+                                      }
+                                      return Color(0xffd76b5b);
+                                    }),
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+                              ),
                             ),
-                            style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.resolveWith((states) {
-                                  if (states.contains(MaterialState.pressed)) {
-                                    return Color(0xffd76b5b);
-                                  }
-                                  return Color(0xffd76b5b);
-                                }),
-                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
-                          ),
-                        ),
 
-                      ],
+                          ],
+                        )
                     )
                 )
-            )
-        ),
+            ),
 
 
+          );
+        }
+      }
     );
+    getDocSnap();
+
+
   }
 }

@@ -14,6 +14,7 @@ import 'package:recipeats/screens/sign_in/sign_in.dart';
 import 'package:recipeats/utils/const/reusable_textfield.dart';
 
 import '../../utils/const/color_gradient.dart';
+import '../../utils/const/loading.dart';
 import '../../utils/const/nav_bar.dart';
 import '../my_recipes/my_recipes.dart';
 import 'OtherRecipeList.dart';
@@ -76,67 +77,74 @@ class _OtherProfileState extends State<OtherProfile>{
   Widget build(BuildContext context) {
     uid = widget.id;
     getDocSnap();
-
-    return Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          iconTheme: IconThemeData(
-            color: hexStringToColor('3c403a'),
-          ),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Text(
-            "Profile",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3c403a')),
-          ),
-        ),
-        body: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: SingleChildScrollView(
-                child: Padding(
-                    padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return FutureBuilder(future: getDocSnap(), builder: (context, snapshot){
+      if (url == ''){
+        return Loading();
+      }
+      else{
+        return Scaffold(
+            extendBodyBehindAppBar: true,
+            appBar: AppBar(
+              iconTheme: IconThemeData(
+                color: hexStringToColor('3c403a'),
+              ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              title: Text(
+                "Profile",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3c403a')),
+              ),
+            ),
+            body: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: SingleChildScrollView(
+                    child: Padding(
+                        padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
+                        child: Column(
                           children: <Widget>[
-                            CircleAvatar(
-                              backgroundImage: i.image,
-                              minRadius: 50,
-                              backgroundColor: Colors.white,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                CircleAvatar(
+                                  backgroundImage: i.image,
+                                  minRadius: 50,
+                                  backgroundColor: Colors.white,
+                                ),
+                                TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewOtherFollowers(uid: uid))), child: Text('Followers:\n' + followers.length.toString(), style: TextStyle(fontSize: 13),),),
+                                TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewOtherFollowings(uid: uid,))), child: Text('Followings:\n' + numOfFollowings.length.toString(), style: TextStyle(fontSize: 13),)),
+                                TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => OtherRecipeList(id: uid))), child: Text('My Recipes:\n' + posts.toString(), style: TextStyle(fontSize: 13),)),
+                              ],
                             ),
-                            TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewOtherFollowers(uid: uid))), child: Text('Followers:\n' + followers.length.toString(), style: TextStyle(fontSize: 13),),),
-                            TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewOtherFollowings(uid: uid,))), child: Text('Followings:\n' + numOfFollowings.length.toString(), style: TextStyle(fontSize: 13),)),
-                            TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => OtherRecipeList(id: uid))), child: Text('My Recipes:\n' + posts.toString(), style: TextStyle(fontSize: 13),)),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text("Username: " + _userTextController.text),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Text("Birthday: " + _birthdayTextController.text),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Text("Phone Number: " + _phoneTextController.text),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Text("Biography: " + _biographyTextController.text),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            FollowButton(),
                           ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text("Username: " + _userTextController.text),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Text("Birthday: " + _birthdayTextController.text),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Text("Phone Number: " + _phoneTextController.text),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Text("Biography: " + _biographyTextController.text),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        FollowButton(),
-                      ],
+                        )
                     )
                 )
             )
-        )
-    );
+        );
+      }
+    });
+
   }
 
   FollowButton(){

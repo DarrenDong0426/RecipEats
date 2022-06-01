@@ -47,8 +47,9 @@ class _notifCardState extends State<notificationCard>{
     data2 = docRef2.data();
     recipeImage = Image.network(data2['food_image']);
     recipeUserId = data2['id'];
+    if (mounted){
     setState(() {
-    });
+    });}
   }
 
   @override

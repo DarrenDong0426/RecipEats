@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:recipeats/utils/const/loading.dart';
 
 import '../../utils/const/color_gradient.dart';
 import 'OtherRecipesCardview.dart';
@@ -30,7 +31,6 @@ class _Search_RecipesState extends State<Search_Recipes> {
           if (data['id'] != uid) {
             myRecipe.add(data);
           }
-          setState(() {});
         }));
     print(myRecipe);
     // print(myRecipe[0]);
@@ -38,40 +38,41 @@ class _Search_RecipesState extends State<Search_Recipes> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    getData();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Search'),
-        automaticallyImplyLeading: false,
-        elevation: 0,
-        backgroundColor: Colors.white,
-        actions: [
-          IconButton(onPressed: () {showSearch(context: context, delegate: MySearchDelegate(myRecipe));}, icon: const Icon(Icons.search), color: hexStringToColor('3c403a'),),
-        ],
-      ),
-      body: Container(
-        width: MediaQuery
-            .of(context)
-            .size
-            .width,
-        height: MediaQuery
-            .of(context)
-            .size
-            .height,
-        child: ListView.builder(
-          itemCount: myRecipe.length,
-          itemBuilder: (context, index) {
-            return OtherRecipesCardView(recipes: myRecipe[index]);
-          },
-        ),
-      ),
-    );
+    return FutureBuilder(future: getData(), builder: (context, snapshot){
+      if (myRecipe.length == 0){
+        return Loading();
+      }
+      else{
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Search'),
+            automaticallyImplyLeading: false,
+            elevation: 0,
+            backgroundColor: Colors.white,
+            actions: [
+              IconButton(onPressed: () {showSearch(context: context, delegate: MySearchDelegate(myRecipe));}, icon: const Icon(Icons.search), color: hexStringToColor('3c403a'),),
+            ],
+          ),
+          body: Container(
+            width: MediaQuery
+                .of(context)
+                .size
+                .width,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height,
+            child: ListView.builder(
+              itemCount: myRecipe.length,
+              itemBuilder: (context, index) {
+                return OtherRecipesCardView(recipes: myRecipe[index]);
+              },
+            ),
+          ),
+        );
+      }
+    });
   }
 }
 

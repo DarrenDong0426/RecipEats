@@ -25,7 +25,8 @@ class Profile extends StatefulWidget {
 
 class _profileState extends State<Profile>{
 
-  late Image i = Image.asset('assets/images/emptyPfp.jpg');
+  Image i = Image.asset('assets/images/emptyPfp.jpg');
+  Image z = Image.asset('assets/images/emptyPfp.jpg');
 
   final FirebaseAuth auth = FirebaseAuth.instance;
   late String uid;
@@ -40,7 +41,7 @@ class _profileState extends State<Profile>{
   int followers = 0;
   int followings = 0;
 
-  Future<dynamic> getDocSnap() async{
+  Future<void> getDocSnap() async{
     final docRef = db.collection('users').doc(uid);
     DocumentSnapshot docSnap = await docRef.get();
     dynamic data = docSnap.data();
@@ -52,12 +53,7 @@ class _profileState extends State<Profile>{
       posts = data['posts'];
       followers = data['followers'].length;
       followings = data['following'].length;
-      if (mounted) {
-        setState(() {
-          i = Image.network(url);
-        });
-      }
-
+      i = Image.network(url);
   }
 
   Future<void> _signOut() async {
@@ -68,14 +64,13 @@ class _profileState extends State<Profile>{
 
   @override
   Widget build(BuildContext context) {
-    /** _prevEmailTextController = widget.email; **/
     User? user = auth.currentUser;
     uid = user!.uid;
     _EmailTextController.text = user.email!;
     return FutureBuilder(
       future: getDocSnap(),
       builder: (context, snapshot){
-        if (url == ''){
+        if (i.toString() == z.toString()){
           return Loading();
         }
         else{
@@ -303,7 +298,7 @@ class _profileState extends State<Profile>{
                         ),*/
                             Container(
                               width: MediaQuery.of(context).size.width,
-                              height: 50,
+                              height: 35,
                               margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
                               decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
                               child: ElevatedButton(
@@ -314,7 +309,7 @@ class _profileState extends State<Profile>{
 
                                 },
                                 child: Text(
-                                  "Liked Recipe",
+                                  "Liked Recipes",
                                   style: const TextStyle(
                                       color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
                                 ),

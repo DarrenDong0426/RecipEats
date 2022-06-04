@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_tags/flutter_tags.dart';
+import 'package:recipeats/utils/const/loading.dart';
 
 import '../../utils/const/color_gradient.dart';
 import '../edit_account/Profile.dart';
@@ -35,7 +36,7 @@ class _OtherRecipeCardDetailsState extends State<OtherRecipeCardDetails>{
   bool rated = false;
   double? score = 0;
 
-  void getData() async {
+  Future<void> getData() async {
     final docRef = db.collection('users').doc(widget.data['id']);
     var auth = FirebaseAuth.instance;
     User? user = auth.currentUser;
@@ -64,69 +65,77 @@ class _OtherRecipeCardDetailsState extends State<OtherRecipeCardDetails>{
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> data = widget.data;
-    getData();
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-            color: hexStringToColor('3c403a'),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text(
-          data['Name'],
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3c403a')),
-        ),
-      ),
-      body: SingleChildScrollView(child: Column(
-        children: <Widget>[
-          Image(image: i.image),
-          Row(
-            children: <Widget>[
-              GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));
-                },
-                child: CircleAvatar(
-                  backgroundImage: Image.network(url).image,
-                  minRadius: 50,
-                  backgroundColor: Colors.white,
-                ),
-              ),
-              Text(data['Name'] + " by " + data["Author"]),
-            ],
-          ),
-          RatingBar(
-            ignoreGestures: rated,
-            initialRating: score!,
-            direction: Axis.horizontal,
-            allowHalfRating: true,
-            itemCount: 5,
-            ratingWidget: RatingWidget(
-              full: Image.asset('assets/images/1.png'),
-              half: Image.asset('assets/images/2.png'),
-              empty: Image.asset('assets/images/3.png'),
+    return FutureBuilder(future: getData(),
+        builder: (context, snapshot){
+      if (url == 'https://firebasestorage.googleapis.com/v0/b/recipeats-24cdd.appspot.com/o/pfp%2Fdongd%40bxscience.edu?alt=media&token=f04b6753-9a41-43e9-94d5-dcd3b4f9cae3'){
+        return Loading();
+      }
+      else{
+        return Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            iconTheme: IconThemeData(
+              color: hexStringToColor('3c403a'),
             ),
-            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-            onRatingUpdate: (rating) {
-              ratings.add(rating);
-              updateFirebase(rating);
-            },
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            title: Text(
+              data['Name'],
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3c403a')),
+            ),
           ),
-          Tags(
-            itemCount: items.length,
-            itemBuilder: (int index){
-              String item = items[index];
-              return ItemTags(index: index, title: item);
-            },
-          ),
-          Text("Prep Time: " + data['prepTime'] + ' minutes'),
-          Text("Servings: " + data['serving']),
-          Text("Ingredients and Utensils: " + data['ingredient']),
-          Text("Steps: " + data['steps']),
-        ],
-      ),),
-    );
+          body: SingleChildScrollView(child: Column(
+            children: <Widget>[
+              Image(image: i.image),
+              Row(
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));
+                    },
+                    child: CircleAvatar(
+                      backgroundImage: Image.network(url).image,
+                      minRadius: 50,
+                      backgroundColor: Colors.white,
+                    ),
+                  ),
+                  Text(data['Name'] + " by " + data["Author"]),
+                ],
+              ),
+              RatingBar(
+                ignoreGestures: rated,
+                initialRating: score!,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+                ratingWidget: RatingWidget(
+                  full: Image.asset('assets/images/1.png'),
+                  half: Image.asset('assets/images/2.png'),
+                  empty: Image.asset('assets/images/3.png'),
+                ),
+                itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                onRatingUpdate: (rating) {
+                  ratings.add(rating);
+                  updateFirebase(rating);
+                },
+              ),
+              Tags(
+                itemCount: items.length,
+                itemBuilder: (int index){
+                  String item = items[index];
+                  return ItemTags(index: index, title: item);
+                },
+              ),
+              Text("Prep Time: " + data['prepTime'] + ' minutes'),
+              Text("Servings: " + data['serving']),
+              Text("Ingredients and Utensils: " + data['ingredient']),
+              Text("Steps: " + data['steps']),
+            ],
+          ),),
+        );
+      }
+    });
+
   }
 
   void updateFirebase(double rating) {

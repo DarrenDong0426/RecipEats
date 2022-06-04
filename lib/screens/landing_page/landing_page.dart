@@ -141,7 +141,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                     return Colors.white;
                                   }),
                                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),       side: BorderSide(color: Color(0xff627f68))
+                                      RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),       side: BorderSide(color: Color(0xff627f68).withOpacity(0.8))
                                       ),),),
                             ),
                           ),

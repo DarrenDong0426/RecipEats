@@ -29,8 +29,8 @@ class LoadingState extends State<Loading>{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Image.asset(loadState),
+    return Container(
+      child: Image.asset(loadState),
     );
   }
 

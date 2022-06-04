@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recipeats/screens/my_recipes/myRecipeCardDetails.dart';
+import 'package:recipeats/utils/const/loading.dart';
 
 import '../../utils/const/color_gradient.dart';
 import '../my_recipes/MyRecipesCardview.dart';
@@ -24,6 +25,7 @@ class _likedRecipesState extends State<likedRecipes>{
   late User _user;
   late String uid;
   late List liked = [];
+  dynamic data2;
 
   Future<void> getData() async {
     _user = auth.currentUser!;
@@ -35,53 +37,61 @@ class _likedRecipesState extends State<likedRecipes>{
     for (int i = 0; i < list.length; i++){
       final docRef = db.collection('recipes').doc(list[i]);
       DocumentSnapshot docSnap = await docRef.get();
-      dynamic data = docSnap.data();
-      liked.add(data);
+      data2 = docSnap.data();
+      liked.add(data2);
+      print(liked[i]['id']);
     }
-    print(liked);
-    setState(() {
-    });
+    data2 = 'non-null';
   }
 
-  @override
-  void initState() {
-    super.initState();
-    getData();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: hexStringToColor('3c403a'),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text(
-          "Liked Recipes",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3c403a')),
-        ),
-      ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: ListView.builder(
-          itemCount: liked.length,
-          itemBuilder: (context, index){
-            print(liked[index]['id']);
-            print(uid);
-            if (liked[index]['id'] == uid){
-              return MyRecipeCardView(recipes: liked[index]);
-            }
-            else{
-              return OtherRecipesCardView(recipes: liked[index]);
-            }
-          },
-        ),
-      ),
-    );
+    return FutureBuilder(future: getData(), builder: (context, snapshot){
+      if (data2 == null){
+        return Loading();
+      }
+      else{
+        return Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            iconTheme: IconThemeData(
+              color: hexStringToColor('3c403a'),
+            ),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            title: Text(
+              "Liked Recipes",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3c403a')),
+            ),
+          ),
+          body: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: getChild(),
+          ),
+        );
+      }
+    });
+  }
+
+  getChild(){
+    if (liked.length == 0){
+      return Center(child: Text("You have no liked posts"));
+    }
+    else{
+      return ListView.builder(
+        itemCount: liked.length,
+        itemBuilder: (context, index){
+          if (liked[index]['id'] == uid){
+            return MyRecipeCardView(recipes: liked[index]);
+          }
+          else{
+            return OtherRecipesCardView(recipes: liked[index]);
+          }
+        },
+      );
+    }
   }
 
 }

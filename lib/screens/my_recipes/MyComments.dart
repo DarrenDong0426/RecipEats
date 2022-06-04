@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:recipeats/utils/const/loading.dart';
 
 import '../../utils/const/color_gradient.dart';
 import '../../utils/const/reusable_textfield.dart';
@@ -30,6 +31,7 @@ class _myCommentsState extends State<myComments>{
   late String recipeId = '';
   late String name = '';
   late Image i = Image.asset('assets/images/emptyPfp.jpg');
+  late Image z = Image.asset('assets/images/emptyPfp.jpg');
   Map<String, dynamic> comments = {
     'users': [],
     'comment': [],
@@ -46,8 +48,6 @@ class _myCommentsState extends State<myComments>{
     _user = auth.currentUser!;
     uid = _user.uid;
     getData();
-    setState(() {
-    });
   }
 
 
@@ -96,17 +96,17 @@ class _myCommentsState extends State<myComments>{
                 hintText: "Enter a comment",
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: Color(0xffd76b5b), width: 0.5),
+                      color: Color(0xff627f68).withOpacity(0.8), width: 0.5),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: Color(0xffd76b5b), width: 0.5),
+                      color: Color(0xff627f68).withOpacity(0.8), width: 0.5),
                 ),
                 border: const OutlineInputBorder(),
                 suffixIcon: TextButton(
                    onPressed: () async {
                      updateFirebase(); },
-                  child: Text("Post", style: TextStyle(color: Color(0xffd76b5b)),),
+                  child: Text("Post", style: TextStyle(color: Color(0xff627f68)),),
                 )
                 /*border: OutlineInputBorder(
 
@@ -152,55 +152,61 @@ class _myCommentsState extends State<myComments>{
     name = data['user'];
     String url = data['pfp'];
     i = Image.network(url);
-    setState(() {
-    });
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   getComment(String user, String comment, String time){
       getUser(user);
-      return Center(
-        child: Card(
-        child: Padding(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Row(
-              children: <Widget> [
-                CircleAvatar(
-                backgroundImage: i.image,
-                minRadius: 25,
-                backgroundColor: Colors.white,
-              ),
-              Container(width: 10),
-              Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+      return FutureBuilder(future: getUser(user), builder: (context, snapshot){
+        if (i.toString() == z.toString()){
+          return Loading();
+        }
+        else{
+          return Center(
+              child: Card(
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Row(
+                          children: <Widget> [
+                            CircleAvatar(
+                              backgroundImage: i.image,
+                              minRadius: 25,
+                              backgroundColor: Colors.white,
+                            ),
+                            Container(width: 10),
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
 
-                Text(name, style: TextStyle(fontWeight: FontWeight.bold),),
-                Text(time, style: TextStyle(fontSize: 11),)
-            ]
-              )
-              ]
+                                  Text(name, style: TextStyle(fontWeight: FontWeight.bold,color: hexStringToColor('3c403a')),),
+                                  Text(time, style: TextStyle(fontSize: 11,color: hexStringToColor('3c403a')),)
+                                ]
+                            )
+                          ]
 
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(60, 10, 10, 10),
-              child: Row(
-                //mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Flexible(
-                    child: Text(comment)
-                  )
-                ],
-              ),
-              )
-            ],
-          ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(60, 10, 10, 10),
+                        child: Row(
+                          //mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Flexible(
+                                child: Text(comment, style: TextStyle(color: hexStringToColor('3c403a')),)
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
 
-        ),
-      ));
-        /*SizedBox(
+                ),
+              ));
+          /*SizedBox(
         width: 500,
 
         child: Column(
@@ -227,6 +233,8 @@ class _myCommentsState extends State<myComments>{
           ]
         ),
       );*/
+        }
+      });
   }
 
   updateFirebase() async {
@@ -248,11 +256,15 @@ class _myCommentsState extends State<myComments>{
         'times': times,
       };
       db.collection('recipes').doc(recipeId).update({'comment': comments});
-      _scrollController.animateTo(
+      setState(() {
+
+      });
+      if (_scrollController.hasClients){
+        _scrollController.animateTo(
           _scrollController.position.maxScrollExtent,
           duration: Duration(milliseconds: 500),
           curve: Curves.easeInOut
-      );
+      ); }
       _commentTextController.clear();
       //Navigator.pop(context);
     }

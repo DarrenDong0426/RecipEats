@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
+import 'package:recipeats/utils/const/loading.dart';
 
 import '../../utils/const/color_gradient.dart';
 import '../my_recipes/MyComments.dart';
@@ -24,7 +25,9 @@ class OtherRecipesCardView extends StatefulWidget{
 class _OtherRecipeCardViewState extends State<OtherRecipesCardView>{
 
   FirebaseFirestore db = FirebaseFirestore.instance;
-  late Image i = Image.asset('assets/images/emptyPfp.jpg');
+  Image i = Image.asset('assets/images/emptyPfp.jpg');
+
+  Image z = Image.asset('assets/images/emptyPfp.jpg');
   List favorite = [];
   bool Liked = false;
   List ratings = [];
@@ -36,20 +39,24 @@ class _OtherRecipeCardViewState extends State<OtherRecipesCardView>{
   @override
   void initState() {
     super.initState();
-    getData();
   }
 
 
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> data = widget.recipes;
-    return Container(
-      child: Column(
-        children: <Widget>[
-          GestureDetector(
-            child: Column(
-              children: <Widget>[
-                /*Row(
+    return FutureBuilder(future: getData(), builder: (context, snapshot){
+      if (i.toString() == z.toString()){
+        return Loading();
+      }
+      else{
+        return Container(
+          child: Column(
+            children: <Widget>[
+              GestureDetector(
+                child: Column(
+                  children: <Widget>[
+                    /*Row(
                     children: <Widget>[
                       GestureDetector(
                         onTap: (){
@@ -64,81 +71,81 @@ class _OtherRecipeCardViewState extends State<OtherRecipesCardView>{
                       Text(data['Name'] + ' by ' + data['Author']),
                     ]
                 ),*/
-                Padding(
-                  padding: EdgeInsets.fromLTRB(15, 15, 15, 25),
-                child:
-                    Container(
-                      padding: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                    child: Column(
+                    Padding(
+                        padding: EdgeInsets.fromLTRB(15, 15, 15, 25),
+                        child:
+                        Container(
+                            padding: EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 5,
+                                  blurRadius: 7,
+                                  offset: Offset(0, 3), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            child: Column(
 
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(12, 0, 12, 8),
-                  child: Row(
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => OtherProfile(id: data['id'])));
-                        },
-                        child: CircleAvatar(
-                          backgroundImage: i.image,
-                          maxRadius: 25,
-                          backgroundColor: Colors.white,
-                        ),
-                      ),
-                      Container(width: 15),
-                      Text(data['Author'], style: TextStyle( fontSize: 15, fontWeight: FontWeight.bold,color: hexStringToColor('3c403a')),),
-                    ],
-                  )
-                  ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image.network(data['food_image'], width: 500, height: 270, fit: BoxFit.fill, alignment: Alignment.center,
-                 ),
+                                children: <Widget>[
+                                  Padding(
+                                      padding: EdgeInsets.fromLTRB(12, 0, 12, 8),
+                                      child: Row(
+                                        children: <Widget>[
+                                          GestureDetector(
+                                            onTap: (){
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => OtherProfile(id: data['id'])));
+                                            },
+                                            child: CircleAvatar(
+                                              backgroundImage: i.image,
+                                              maxRadius: 25,
+                                              backgroundColor: Colors.white,
+                                            ),
+                                          ),
+                                          Container(width: 15),
+                                          Text(data['Author'], style: TextStyle( fontSize: 15, fontWeight: FontWeight.bold,color: hexStringToColor('3c403a')),),
+                                        ],
+                                      )
+                                  ),
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image.network(data['food_image'], width: 500, height: 270, fit: BoxFit.fill, alignment: Alignment.center,
+                                    ),
 
-                ),
+                                  ),
 
 
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    //mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      LikeButton(likeCount: numsOfLike, isLiked: Liked, onTap: updateFirebase, circleColor:
-                      CircleColor(start: Colors.white, end: Color(0xff0099cc))),
-                      IconButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => myComments(id: data['Name'] + data['id'])))},
-                        icon: Icon(Icons.chat_bubble_outline),),
-                      IconButton(onPressed: () => {},
-                        icon: Icon(Icons.share),),
-                      Text('Rating: ' + getRating() + '/5'),
-                    ],
-                  ),
-                  Column(
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    //mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      LikeButton(likeCount: numsOfLike, isLiked: Liked, onTap: updateFirebase, circleColor:
+                                      CircleColor(start: Colors.white, end: Color(0xff0099cc))),
+                                      IconButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => myComments(id: data['Name'] + data['id'])))},
+                                        icon: Icon(Icons.chat_bubble_outline),),
+                                      IconButton(onPressed: () => {},
+                                        icon: Icon(Icons.share),),
+                                      Text('Rating: ' + getRating() + '/5'),
+                                    ],
+                                  ),
+                                  Column(
 
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.centerLeft,
-                         child:
-                          Text(data['Name'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: hexStringToColor('3c403a'))),
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child:
-                          Text(data['time'], style: TextStyle(fontSize: 13)),
-                        )
-                      ]),
-                 /* Align(
+                                      children: <Widget>[
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child:
+                                          Text(data['Name'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: hexStringToColor('3c403a'))),
+                                        ),
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child:
+                                          Text(data['time'], style: TextStyle(fontSize: 13)),
+                                        )
+                                      ]),
+                                  /* Align(
                     alignment: Alignment.centerLeft,
                     child:
                     Column(
@@ -152,25 +159,28 @@ class _OtherRecipeCardViewState extends State<OtherRecipesCardView>{
 
 
 
-                ]
-                )
-                )
-                )
-              ],
-            ),
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => OtherRecipeCardDetails(data: data)));
-            },
-          ),
-          /*Row(
+                                ]
+                            )
+                        )
+                    )
+                  ],
+                ),
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => OtherRecipeCardDetails(data: data)));
+                },
+              ),
+              /*Row(
             children: <Widget>[
               LikeButton(likeCount: numsOfLike, isLiked: Liked, onTap: updateFirebase),
               IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => OtherComments(comments: data['comment']))), icon: Icon(Icons.chat_bubble_outline)),
               Text('Ratings: ' + getRating() + '/5'),
             ],
           ),*/
-        ],
-      ),
+            ],
+          ),
+        );
+      }
+    }
     );
   }
 
@@ -209,7 +219,7 @@ class _OtherRecipeCardViewState extends State<OtherRecipesCardView>{
   }
 
 
-  void getData() async {
+  Future<void> getData() async {
     var auth = FirebaseAuth.instance;
     var user = auth.currentUser;
     String? id = user?.uid;

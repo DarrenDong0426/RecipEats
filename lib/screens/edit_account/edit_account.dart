@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:recipeats/utils/const/reusable_textfield.dart';
 
 import '../../utils/const/color_gradient.dart';
+import '../../utils/const/loading.dart';
 import '../../utils/const/nav_bar.dart';
 
 class Edit_Account extends StatefulWidget {
@@ -38,6 +39,7 @@ class _editAccountState extends State<Edit_Account> {
   TextEditingController _biographyTextController = TextEditingController();
   TextEditingController _phoneTextController = TextEditingController();
   Image i = Image.asset('assets/images/emptyPfp.jpg');
+  Image z = Image.asset('assets/images/emptyPfp.jpg');
   String url = 'assets/images/emptyPfp.jpg';
   late File p;
 
@@ -95,7 +97,7 @@ class _editAccountState extends State<Edit_Account> {
     });
   }
 
-  Future<dynamic> getDocSnap() async {
+  Future<void> getDocSnap() async {
     final docRef = db.collection('users').doc(uid);
     DocumentSnapshot docSnap = await docRef.get();
     dynamic data = docSnap.data();
@@ -105,9 +107,7 @@ class _editAccountState extends State<Edit_Account> {
     _biographyTextController.text = data['biography'];
     _PasswordTextController.text = data['password'];
     url = data['pfp'];
-    setState(() {
       i = Image.network(url);
-    });
   }
 
   @override
@@ -115,119 +115,125 @@ class _editAccountState extends State<Edit_Account> {
     _user = auth.currentUser!;
     uid = _user.uid;
     _EmailTextController.text = _user.email!;
-    getDocSnap();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          iconTheme: IconThemeData(
-            color: hexStringToColor('3c403a'),
-          ),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Text(
-            "Edit Account",
-            style: TextStyle(fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: hexStringToColor('3c403a')),
-          ),
-        ),
-        body: Container(
-            width: MediaQuery
-                .of(context)
-                .size
-                .width,
-            height: MediaQuery
-                .of(context)
-                .size
-                .height,
-            child: SingleChildScrollView(
-                child: Padding(
-                    padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
-                    child: Column(
-                      children: <Widget>[
-                        ElevatedButton(
-                          onPressed: () {
-                            openChoice(context);
-                          },
-                          child: CircleAvatar(
-                            backgroundImage: i.image,
-                            minRadius: 100,
-                            backgroundColor: Colors.white,
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            shape: CircleBorder(),
-                            primary: Colors.white, // <-- Button color
-                            onPrimary: Colors.white, // <-- Splash color
-                          ),
-                        ),
-                        reusableTextField2(Icons.lock, false,
-                            _PasswordTextController, TextInputType.name),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        reusableTextField2(Icons.person_outline, false,
-                            _userTextController, TextInputType.name),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        reusableTextField2(Icons.cake, false,
-                            _birthdayTextController, TextInputType.datetime),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        reusableTextField2(Icons.phone, false,
-                            _phoneTextController, TextInputType.number),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        TextFormField(
-                            minLines: 1,
-                            maxLines: 5,
-                            controller: _biographyTextController,
-                            enableSuggestions: true,
-                            autocorrect: true,
-                            cursorColor: Colors.white,
-                            style: TextStyle(
-                                color: Colors.white.withOpacity(1.0)),
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.info,
-                                color: Colors.white70,
+    return FutureBuilder(future: getDocSnap(), builder: (context, snapshot){
+      if (i.toString() == z.toString()){
+        return Loading();
+      }
+      else{
+        return Scaffold(
+            extendBodyBehindAppBar: true,
+            appBar: AppBar(
+              iconTheme: IconThemeData(
+                color: hexStringToColor('3c403a'),
+              ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              title: Text(
+                "Edit Account",
+                style: TextStyle(fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: hexStringToColor('3c403a')),
+              ),
+            ),
+            body: Container(
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width,
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height,
+                child: SingleChildScrollView(
+                    child: Padding(
+                        padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
+                        child: Column(
+                          children: <Widget>[
+                            ElevatedButton(
+                              onPressed: () {
+                                openChoice(context);
+                              },
+                              child: CircleAvatar(
+                                backgroundImage: i.image,
+                                minRadius: 100,
+                                backgroundColor: Colors.white,
                               ),
-                              labelStyle: TextStyle(
-                                  color: Colors.white.withOpacity(1.0)),
-                              filled: true,
-                              floatingLabelBehavior: FloatingLabelBehavior
-                                  .never,
-                              fillColor: hexStringToColor('627f68').withOpacity(
-                                  0.8),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  borderSide: const BorderSide(
-                                      width: 0, style: BorderStyle.none)),
+                              style: ElevatedButton.styleFrom(
+                                shape: CircleBorder(),
+                                primary: Colors.white, // <-- Button color
+                                onPrimary: Colors.white, // <-- Splash color
+                              ),
                             ),
-                            keyboardType: TextInputType.multiline
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        submitButton(context, "Submit", () async {
-                          updateFirebase();
-                          Navigator.push(context,
-                              MaterialPageRoute(
-                                  builder: (context) => navBar()));
-                        })
-                      ],
+                            reusableTextField2(Icons.lock, false,
+                                _PasswordTextController, TextInputType.name),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            reusableTextField2(Icons.person_outline, false,
+                                _userTextController, TextInputType.name),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            reusableTextField2(Icons.cake, false,
+                                _birthdayTextController, TextInputType.datetime),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            reusableTextField2(Icons.phone, false,
+                                _phoneTextController, TextInputType.number),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                                minLines: 1,
+                                maxLines: 5,
+                                controller: _biographyTextController,
+                                enableSuggestions: true,
+                                autocorrect: true,
+                                cursorColor: Colors.white,
+                                style: TextStyle(
+                                    color: Colors.white.withOpacity(1.0)),
+                                decoration: InputDecoration(
+                                  prefixIcon: Icon(
+                                    Icons.info,
+                                    color: Colors.white70,
+                                  ),
+                                  labelStyle: TextStyle(
+                                      color: Colors.white.withOpacity(1.0)),
+                                  filled: true,
+                                  floatingLabelBehavior: FloatingLabelBehavior
+                                      .never,
+                                  fillColor: hexStringToColor('627f68').withOpacity(
+                                      0.8),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(30.0),
+                                      borderSide: const BorderSide(
+                                          width: 0, style: BorderStyle.none)),
+                                ),
+                                keyboardType: TextInputType.multiline
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            submitButton(context, "Submit", () async {
+                              updateFirebase();
+                              Navigator.push(context,
+                                  MaterialPageRoute(
+                                      builder: (context) => navBar()));
+                            })
+                          ],
+                        )
                     )
                 )
             )
-        )
-    );
+        );
+      }
+    });
   }
 
 

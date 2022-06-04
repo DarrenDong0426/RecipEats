@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/const/color_gradient.dart';
+import '../../utils/const/loading.dart';
 import 'notifCard.dart';
 
 class notification extends StatefulWidget{
@@ -17,6 +18,7 @@ class _notificationState extends State<notification>{
   FirebaseAuth auth = FirebaseAuth.instance;
   late User user;
   late String uid;
+  dynamic data;
   Map<String, dynamic> map = {'uid': [], 'message': [], 'recipeId': []};
 
 
@@ -24,38 +26,41 @@ class _notificationState extends State<notification>{
     user = auth.currentUser!;
     uid = user.uid;
     var docRef = await db.collection('users').doc(uid).get();
-    var data = docRef.data();
+    data = docRef.data();
     map = data!['notifs'];
-    if (mounted) {
-      setState(() {});
-    }
   }
 
 
   @override
   Widget build(BuildContext context) {
-    getData();
-    return Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-        // leading: Icon(Icons.close_rounded),
-          iconTheme: IconThemeData(
-          color: hexStringToColor('3A3B3C'),
+    return FutureBuilder(future: getData(), builder: (context, snapshot){
+      if (data == null){
+        return Loading();
+      }
+      else{
+        return Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            // leading: Icon(Icons.close_rounded),
+            iconTheme: IconThemeData(
+              color: hexStringToColor('3A3B3C'),
+            ),
+            backgroundColor: Colors.white,
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            title: Text(
+              "Notifications",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3A3B3C')),
+            ),
           ),
-          backgroundColor: Colors.white,
-          elevation: 0,
-          automaticallyImplyLeading: false,
-          title: Text(
-            "Notifications",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3A3B3C')),
+          body: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: getChild(),
           ),
-        ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: getChild(),
-      ),
-    );
+        );
+      }
+    });
   }
 
   getChild() {

@@ -5,6 +5,8 @@ import 'package:recipeats/screens/my_recipes/myRecipeCardDetails.dart';
 import 'package:recipeats/screens/search_recipes/OtherProfile.dart';
 import 'package:recipeats/screens/search_recipes/otherRecipeCardDetails.dart';
 
+import '../../utils/const/loading.dart';
+
 class notificationCard extends StatefulWidget{
 
   String uid;
@@ -23,8 +25,10 @@ class _notifCardState extends State<notificationCard>{
   late String userId;
   late String notif;
   late String recipe;
-  late Image userPfp = Image.asset('assets/images/emptyPfp.jpg');
-  late Image recipeImage = Image.asset('assets/images/emptyFood.jpg');
+   Image userPfp = Image.asset('assets/images/emptyPfp.jpg');
+   Image dummy1 = Image.asset('assets/images/emptyPfp.jpg');
+   Image recipeImage = Image.asset('assets/images/emptyFood.jpg');
+  Image dummy2 = Image.asset('assets/images/emptyFood.jpg');
   late String recipeUserId;
   late dynamic data2;
 
@@ -35,26 +39,31 @@ class _notifCardState extends State<notificationCard>{
     userId = widget.uid;
     notif = widget.message;
     recipe = widget.recipeId;
-    getData();
   }
 
   Future<void> getData() async {
     dynamic docRef = await db.collection('users').doc(userId).get();
     dynamic data = docRef.data();
-    print(data);
     userPfp = Image.network(data['pfp']);
     dynamic docRef2 = await db.collection('recipes').doc(recipe).get();
     data2 = docRef2.data();
     recipeImage = Image.network(data2['food_image']);
     recipeUserId = data2['id'];
-    if (mounted){
-    setState(() {
-    });}
   }
 
   @override
   Widget build(BuildContext context) {
-    return getWidget();
+    return FutureBuilder(future: getData(), builder: (context, snapshot){
+      print(recipeImage);
+      print(userPfp);
+      if (userPfp.toString() == dummy1.toString()){
+        return Loading();
+      }
+      else{
+        return getWidget();
+      }
+    });
+
   }
 
   Widget getWidget() {

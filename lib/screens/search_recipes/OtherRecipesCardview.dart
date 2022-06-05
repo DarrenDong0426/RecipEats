@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 import 'package:recipeats/utils/const/loading.dart';
@@ -53,8 +54,20 @@ class _OtherRecipeCardViewState extends State<OtherRecipesCardView>{
         return Container(
           child: Column(
             children: <Widget>[
+              /*GestureDetector(
+                child:  ClipRRect(
+                   borderRadius: BorderRadius.circular(8.0),
+                 child: Image.network(data['food_image'], width: 500, height: 270, fit: BoxFit.fill, alignment: Alignment.center,
+              ),
+
+              ),
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => OtherRecipeCardDetails(data: data)));
+              },
+              )*/
               GestureDetector(
-                child: Column(
+                child:
+                Column(
                   children: <Widget>[
                     /*Row(
                     children: <Widget>[

@@ -151,7 +151,7 @@ class _editAccountState extends State<Edit_Account> {
                     .height,
                 child: SingleChildScrollView(
                     child: Padding(
-                        padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
+                        padding: EdgeInsets.fromLTRB(20, 100, 20, 0),
                         child: Column(
                           children: <Widget>[
                             ElevatedButton(
@@ -160,15 +160,17 @@ class _editAccountState extends State<Edit_Account> {
                               },
                               child: CircleAvatar(
                                 backgroundImage: i.image,
-                                minRadius: 100,
+                                maxRadius: 70,
                                 backgroundColor: Colors.white,
                               ),
+
                               style: ElevatedButton.styleFrom(
                                 shape: CircleBorder(),
                                 primary: Colors.white, // <-- Button color
                                 onPrimary: Colors.white, // <-- Splash color
                               ),
                             ),
+                            SizedBox(height: 30),
                             reusableTextField2(Icons.lock, false,
                                 _PasswordTextController, TextInputType.name),
                             SizedBox(
@@ -195,25 +197,30 @@ class _editAccountState extends State<Edit_Account> {
                                 controller: _biographyTextController,
                                 enableSuggestions: true,
                                 autocorrect: true,
-                                cursorColor: Colors.white,
+                                cursorColor: Color(0xff627f68),
                                 style: TextStyle(
-                                    color: Colors.white.withOpacity(1.0)),
+                                    color: Color(0xff627f68).withOpacity(1.0)),
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(
                                     Icons.info,
-                                    color: Colors.white70,
+                                    color: Color(0xff627f68),
                                   ),
                                   labelStyle: TextStyle(
-                                      color: Colors.white.withOpacity(1.0)),
-                                  filled: true,
+                                      color: Color(0xff627f68).withOpacity(1.0)),
+                                  //filled: true,
                                   floatingLabelBehavior: FloatingLabelBehavior
                                       .never,
-                                  fillColor: hexStringToColor('627f68').withOpacity(
-                                      0.8),
+                                  //fillColor: hexStringToColor('627f68').withOpacity(0.8),
                                   border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(30.0),
-                                      borderSide: const BorderSide(
-                                          width: 0, style: BorderStyle.none)),
+                                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                    borderSide: BorderSide(width: 1.0),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Color(0xff627f68).withOpacity(0.7)),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Color(0xff627f68).withOpacity(0.7)),
+                                  ),
                                 ),
                                 keyboardType: TextInputType.multiline
                             ),

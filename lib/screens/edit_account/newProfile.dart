@@ -41,8 +41,8 @@ class _newProfileState extends State<newProfile>{
   TextEditingController _biographyTextController = TextEditingController();
   TextEditingController _phoneTextController = TextEditingController();
   String error = '';
-  String ImageUrl = 'assets/images/emptyPfp.jpg';
-  Image i = Image.asset('assets/images/emptyPfp.jpg');
+  String ImageUrl = 'assets/images/defaultPfp.png';
+  Image i = Image.asset('assets/images/defaultPfp.png');
   late File p;
 
 
@@ -109,6 +109,20 @@ class _newProfileState extends State<newProfile>{
     _passwordTextController = widget.password;
     id = widget.id;
     return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: hexStringToColor('3c403a'),
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Text(
+            "Create Profile",
+            style: TextStyle(fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: hexStringToColor('3c403a')),
+          ),
+        ),
       body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
@@ -122,7 +136,7 @@ class _newProfileState extends State<newProfile>{
                     child: CircleAvatar(
                       backgroundImage: i.image,
                       minRadius: 100,
-                      backgroundColor: Colors.white,
+                      backgroundColor: Colors.transparent,
                     ),
                     style: ElevatedButton.styleFrom(
                       shape: CircleBorder(),
@@ -148,7 +162,7 @@ class _newProfileState extends State<newProfile>{
                     const SizedBox(
                       height: 20,
                     ),
-                    TextField(
+                   /* TextField(
                       minLines: 1,
                       maxLines: 5,
                       controller: _biographyTextController,
@@ -171,7 +185,41 @@ class _newProfileState extends State<newProfile>{
                             borderSide: const BorderSide(width: 0, style: BorderStyle.none)),
                       ),
                       keyboardType: TextInputType.multiline
-                    ),
+                    ),*/
+                  TextFormField(
+                      minLines: 1,
+                      maxLines: 5,
+                      controller: _biographyTextController,
+                      enableSuggestions: true,
+                      autocorrect: true,
+                      cursorColor: Color(0xff627f68),
+                      style: TextStyle(
+                          color: Color(0xff627f68).withOpacity(1.0)),
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.info,
+                          color: Color(0xff627f68),
+                        ),
+                        labelText: "Enter Biography",
+                        labelStyle: TextStyle(
+                            color: Color(0xff627f68).withOpacity(1.0)),
+                        //filled: true,
+                        floatingLabelBehavior: FloatingLabelBehavior
+                            .never,
+                        //fillColor: hexStringToColor('627f68').withOpacity(0.8),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          borderSide: BorderSide(width: 1.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xff627f68).withOpacity(0.7)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xff627f68).withOpacity(0.7)),
+                        ),
+                      ),
+                      keyboardType: TextInputType.multiline
+                  ),
                     const SizedBox(
                       height: 20,
                     ),
@@ -244,7 +292,7 @@ class _newProfileState extends State<newProfile>{
         error = "Enter a short biography";
       });
     }
-    else if(ImageUrl == 'assets/emptyPfp.jpg'){
+    else if(ImageUrl == 'assets/defaultPfp.png'){
       setState(() {
         error = "Add a profile picture";
       });

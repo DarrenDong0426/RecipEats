@@ -67,20 +67,27 @@ TextFormField reusableTextField2(IconData icon, bool isPasswordType,
       obscureText: isPasswordType,
       enableSuggestions: !isPasswordType,
       autocorrect: !isPasswordType,
-      cursorColor: Colors.white,
-      style: TextStyle(color: Colors.white.withOpacity(1.0)),
+      cursorColor: Color(0xff627f68),
+      style: TextStyle(color: Color(0xff627f68).withOpacity(1.0)),
       decoration: InputDecoration(
         prefixIcon: Icon(
           icon,
-          color: Colors.white70,
+          color: Color(0xff627f68),
         ),
-        labelStyle: TextStyle(color: Colors.white.withOpacity(1.0)),
-        filled: true,
+        labelStyle: TextStyle(color: Color(0xff627f68).withOpacity(1.0)),
+        //filled: true,
         floatingLabelBehavior: FloatingLabelBehavior.never,
-        fillColor: hexStringToColor('627f68').withOpacity(0.8),
+        //fillColor: hexStringToColor('627f68').withOpacity(0.8),
         border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30.0),
-            borderSide: const BorderSide(width: 0, style: BorderStyle.none)),
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          borderSide: BorderSide(width: 1.0),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Color(0xff627f68).withOpacity(0.7)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Color(0xff627f68).withOpacity(0.7)),
+        ),
       ),
       keyboardType: type
   );

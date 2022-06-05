@@ -34,16 +34,25 @@ class _addRecipesState extends State<addRecipes>{
   FirebaseFirestore db = FirebaseFirestore.instance;
   TextEditingController _titleTextController = TextEditingController();
   TextEditingController _infoTextController = TextEditingController();
+  TextEditingController _allergensTextController = TextEditingController();
   TextEditingController _prepTimeTextController = TextEditingController();
   TextEditingController _ingredientsTextController = TextEditingController();
+  TextEditingController _kitchenwareTextController = TextEditingController();
   TextEditingController _stepsTextController = TextEditingController();
   TextEditingController _servingTextController = TextEditingController();
+  TextEditingController _costTextController = TextEditingController();
+  TextEditingController _calorieTextController = TextEditingController();
   late Map<String, bool> tags = new Map();
   late List items = [];
   int posts = 0;
   static List<String> stepsList = [];
   List<Widget> stepsFields = [];
   String error = '';
+  int stepCount = 1;
+
+  Map<String,TextEditingController> textEditingControllers = {};
+  var textFields = <TextField>[];
+
 
   getData() async {
     final docRef = db.collection('users').doc(uid);
@@ -89,33 +98,96 @@ class _addRecipesState extends State<addRecipes>{
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      reusableTextField("Name", Icons.question_mark, false,
+                      reusableTextField("Recipe Name", Icons.fastfood, false,
                           _titleTextController, TextInputType.text),
                       const SizedBox(
                         height: 20,
                       ),
-                      reusableTextField("Summary", Icons.warning, false,
+                      reusableTextField("Summary", Icons.description, false,
                           _infoTextController, TextInputType.multiline),
                       const SizedBox(
                         height: 20,
                       ),
-                      reusableTextField("Prep time (in mins): ", Icons.timer, false,
+                      reusableTextField("Cooking time (in minutes)", Icons.timer, false,
                           _prepTimeTextController, TextInputType.number),
                       const SizedBox(
                         height: 20,
                       ),
-                      reusableTextField("Serving Size", Icons.exposure_rounded, false,
+                      reusableTextField("Serving Size", Icons.restaurant, false,
                           _servingTextController, TextInputType.text),
                       const SizedBox(
                         height: 20,
                       ),
-                      reusableTextField("Ingredients + Kitchenware",  Icons.format_list_bulleted_rounded, false,
+                      reusableTextField("Ingredients",  Icons.format_list_bulleted_rounded, false,
                           _ingredientsTextController, TextInputType.multiline),
                       const SizedBox(
                         height: 20,
                       ),
-                      reusableTextField("Numbered Steps",  Icons.format_list_numbered_sharp, false,
-                          _stepsTextController, TextInputType.multiline),
+                      reusableTextField("Kitchenware (separated by comma)",  Icons.kitchen, false,
+                          _kitchenwareTextController, TextInputType.multiline),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      reusableTextField("Estimated Calories",  Icons.health_and_safety, false,
+                          _calorieTextController, TextInputType.multiline),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      reusableTextField("Allergens (separated by comma)",  Icons.warning_rounded, false,
+                          _allergensTextController, TextInputType.multiline),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      reusableTextField("Estimated Cost in Dollars",  Icons.attach_money, false,
+                          _costTextController, TextInputType.multiline),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      /*reusableTextField("Numbered Steps",  Icons.format_list_numbered_sharp, false,
+                          _stepsTextController, TextInputType.multiline),*/
+                      Container(
+                          width: 350,
+                          height: 60,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8)
+                          ),
+                          child:TextField(
+                              controller: _stepsTextController,
+                              obscureText: false,
+                              enableSuggestions: true,
+                              autocorrect: true,
+                              cursorColor: Colors.black,
+                              style: TextStyle(color: Colors.black),
+                              decoration: InputDecoration(
+                                prefixIcon: Icon(
+                                  Icons.format_list_numbered_sharp,
+                                  color: Color(0xff627f68),
+                                ),
+                                labelText: "Numbered Steps",
+                                labelStyle: TextStyle(color: hexStringToColor('3c403a')),
+                                //filled: true,
+
+                                floatingLabelBehavior: FloatingLabelBehavior.never,
+                                //fillColor: hexStringToColor('454F8C').withOpacity(0.8),
+                                /*border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: const BorderSide(color: Color(0xffd76b5b))),*/
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                  borderSide: BorderSide(width: 1.0),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Color(0xff627f68).withOpacity(0.7)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Color(0xff627f68).withOpacity(0.7)),
+                                ),
+
+                              ),
+                              keyboardType: TextInputType.multiline
+                          )
+                      ),
+
                       Center(
                           child: Container(
                         padding: EdgeInsets.all(60),
@@ -225,7 +297,22 @@ class _addRecipesState extends State<addRecipes>{
     }
     else if(_infoTextController.text == ""){
       setState(() {
-        error = "Enter a summary of your dish or any warnings";
+        error = "Enter a summary of your recipe";
+      });
+    }
+    else if(_costTextController.text == ""){
+      setState(() {
+        error = "Enter an estimated price for the recipe";
+      });
+    }
+    else if(_kitchenwareTextController.text == ""){
+      setState(() {
+        error = "List any needed kitchenware";
+      });
+    }
+    else if(_calorieTextController.text == ""){
+      setState(() {
+        error = "Enter estimated calories for the dish";
       });
     }
     else if(_prepTimeTextController.text == ""){
@@ -270,6 +357,23 @@ class _addRecipesState extends State<addRecipes>{
     setState(() {});
   }
 
+  /*updateTextFields(){
+    setState(() {
+      stepCount = int.parse(_stepsTextController.text);
+      createFields();
+    });
+  }
+
+  createFields(){
+    for (int i = 0; i < stepCount; i++){
+      var textEditingController = new TextEditingController(text: (i + 1).toString());
+      //textEditingControllers.putIfAbsent((i + 1).toString(), ()=>textEditingController);
+      textFields.add( TextField(controller: textEditingController));
+    }
+    setState(() {
+
+    });
+  }*/
 
   Future<void> updateFirebase() async {
     final recipe = <String, dynamic>{
@@ -282,6 +386,10 @@ class _addRecipesState extends State<addRecipes>{
       "serving": _servingTextController.text,
       "ingredient": _ingredientsTextController.text,
       "steps": _stepsTextController.text,
+      "kitchenware": _kitchenwareTextController.text,
+      "cost": _costTextController.text,
+      "allergens": _allergensTextController.text,
+      "calories": _calorieTextController.text,
       "food_image": url,
       'likes': 0,
       'tags': items,

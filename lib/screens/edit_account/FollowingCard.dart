@@ -46,6 +46,7 @@ class FollowingCardState extends State<FollowingCard>{
       }
       else{
         return Container(
+          padding: EdgeInsets.all(15),
           child: Row(
             children: <Widget>[
               GestureDetector(
@@ -54,10 +55,11 @@ class FollowingCardState extends State<FollowingCard>{
                 },
                 child: CircleAvatar(
                   backgroundImage: i.image,
-                  minRadius: 50,
+                  maxRadius: 35,
                   backgroundColor: Colors.white,
                 ),
               ),
+              SizedBox(width: 10),
               Text(username, style: TextStyle(color: Colors.black),),
             ],
           ),

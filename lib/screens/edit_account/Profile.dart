@@ -108,7 +108,8 @@ class _profileState extends State<Profile>{
                               children: <Widget>[
                                 Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: <Widget> [CircleAvatar(
+                                    children: <Widget> [
+                                      CircleAvatar(
                                       backgroundImage: i.image,
                                       minRadius: 40,
                                       maxRadius: 40,
@@ -157,7 +158,7 @@ class _profileState extends State<Profile>{
                                                   //constraints: BoxConstraints.expand(),
 
                                                   margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
-                                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
+                                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
                                                   child: ElevatedButton(
                                                     onPressed: () async {
 
@@ -178,7 +179,7 @@ class _profileState extends State<Profile>{
                                                           return Color(0xffd76b5b);
                                                         }),
                                                         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                                            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+                                                            RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)))),
                                                   ),
                                                 ),
                                               ],
@@ -300,7 +301,7 @@ class _profileState extends State<Profile>{
                               width: MediaQuery.of(context).size.width,
                               height: 35,
                               margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
                               child: ElevatedButton(
                                 onPressed: () async {
 
@@ -321,7 +322,7 @@ class _profileState extends State<Profile>{
                                       return Color(0xffd76b5b);
                                     }),
                                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+                                        RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)))),
                               ),
                             ),
 

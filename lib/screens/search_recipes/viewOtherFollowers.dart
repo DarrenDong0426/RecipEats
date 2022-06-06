@@ -30,7 +30,6 @@ class viewOtherFollowersState extends State<viewOtherFollowers>{
     var docRef = await db.collection('users').doc(uid).get();
     var data = docRef.data();
     Followers = data!['followers'];
-    print(Followers);
     setState(() {
     });
   }

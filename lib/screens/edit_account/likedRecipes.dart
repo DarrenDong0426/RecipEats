@@ -24,7 +24,7 @@ class _likedRecipesState extends State<likedRecipes>{
   FirebaseAuth auth = FirebaseAuth.instance;
   late User _user;
   late String uid;
-  late List liked = [];
+  List liked = [];
   dynamic data2;
 
   Future<void> getData() async {
@@ -34,12 +34,13 @@ class _likedRecipesState extends State<likedRecipes>{
     DocumentSnapshot docSnap = await docRef.get();
     dynamic data = docSnap.data();
     List list = data['favorite_post'];
+    print(liked);
     for (int i = 0; i < list.length; i++){
       final docRef = db.collection('recipes').doc(list[i]);
       DocumentSnapshot docSnap = await docRef.get();
       data2 = docSnap.data();
       liked.add(data2);
-      print(liked[i]['id']);
+      print(liked);
     }
     data2 = 'non-null';
   }

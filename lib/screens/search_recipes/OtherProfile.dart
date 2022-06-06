@@ -91,7 +91,7 @@ class _OtherProfileState extends State<OtherProfile>{
               backgroundColor: Colors.transparent,
               elevation: 0,
               title: Text(
-                "Profile",
+                _userTextController.text,
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3c403a')),
               ),
             ),
@@ -100,7 +100,7 @@ class _OtherProfileState extends State<OtherProfile>{
                 height: MediaQuery.of(context).size.height,
                 child: SingleChildScrollView(
                     child: Padding(
-                        padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
+                        padding: EdgeInsets.fromLTRB(20, 80, 20, 0),
                         child: Column(
                           children: <Widget>[
                             Row(
@@ -108,15 +108,73 @@ class _OtherProfileState extends State<OtherProfile>{
                               children: <Widget>[
                                 CircleAvatar(
                                   backgroundImage: i.image,
-                                  minRadius: 50,
+                                  maxRadius: 40,
                                   backgroundColor: Colors.white,
                                 ),
-                                TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewOtherFollowers(uid: uid))), child: Text('Followers:\n' + followers.length.toString(), style: TextStyle(fontSize: 13),),),
+                                Column(
+                                    children: <Widget>[
+                                      SizedBox(height: 10),
+                                      Row(
+                                          children: <Widget>[
+                                            TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewOtherFollowers(uid: uid))),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Text("Followers", style: TextStyle(fontSize: 17, color: hexStringToColor('3c403a')),),
+                                                    Container(height: 5),
+                                                    Text(followers.length.toString(), style: TextStyle(fontSize: 14, color: Color(0xffd76b5b)),)
+                                                  ],
+                                                )),
+                                            TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewOtherFollowings(uid: uid,))),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Text("Following", style: TextStyle(fontSize: 17, color: Colors.black),),
+                                                    Container(height: 5),
+                                                    Text(numOfFollowings.length.toString(), style: TextStyle(fontSize: 14, color: Color(0xffd76b5b)),)
+                                                  ],
+                                                )),
+                                            TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => OtherRecipeList(id: uid))),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Text("Posts", style: TextStyle(fontSize: 17, color: Colors.black),),
+                                                    Container(height: 5),
+                                                    Text(posts.toString(), style: TextStyle(fontSize: 14, color: Color(0xffd76b5b)),)
+                                                  ],
+                                                ))
+                                          ]
+                                      ),
+                                      Row(
+
+                                        children: <Widget>[
+                                          FollowButton()
+                                        ],
+
+                                      )
+
+                                    ]
+                                )
+                                /*TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewOtherFollowers(uid: uid))), child: Text('Followers:\n' + followers.length.toString(), style: TextStyle(fontSize: 13),),),
                                 TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => viewOtherFollowings(uid: uid,))), child: Text('Followings:\n' + numOfFollowings.length.toString(), style: TextStyle(fontSize: 13),)),
-                                TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => OtherRecipeList(id: uid))), child: Text('My Recipes:\n' + posts.toString(), style: TextStyle(fontSize: 13),)),
+                                TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => OtherRecipeList(id: uid))), child: Text('My Recipes:\n' + posts.toString(), style: TextStyle(fontSize: 13),)),*/
                               ],
                             ),
-                            SizedBox(
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
+                              child:  Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(_userTextController.text, style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                              child:   Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(_biographyTextController.text, style: TextStyle(fontSize: 14)),
+                              ),
+                            ),
+                            /*SizedBox(
                               height: 20,
                             ),
                             Text("Username: " + _userTextController.text),
@@ -135,7 +193,7 @@ class _OtherProfileState extends State<OtherProfile>{
                             const SizedBox(
                               height: 20,
                             ),
-                            FollowButton(),
+                            FollowButton(),*/
                           ],
                         )
                     )
@@ -149,10 +207,59 @@ class _OtherProfileState extends State<OtherProfile>{
 
   FollowButton(){
     if (following.indexOf(uid) == -1){
-      return TextButton(onPressed: () => updateFirebase(false), child: Text("Follow"));
+      //return TextButton(onPressed: () => updateFirebase(false), child: Text("Follow"));
+      return  Container(
+        width: 250,
+        height: 35,
+        //constraints: BoxConstraints.expand(),
+
+        margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+        child: ElevatedButton(
+          onPressed: () => updateFirebase(false),
+          child: Text(
+            "Follow",
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.resolveWith((states) {
+                if (states.contains(MaterialState.pressed)) {
+                  return Color(0xffd76b5b);
+                }
+                return Color(0xffd76b5b);
+              }),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)))),
+        ),
+      );
     }
     else{
-      return TextButton(onPressed: () => updateFirebase(true), child: Text("Unfollow"));
+      return  Container(
+        width: 250,
+        height: 35,
+        //constraints: BoxConstraints.expand(),
+
+        margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+        child: ElevatedButton(
+          onPressed: () => updateFirebase(true),
+          child: Text(
+            "Unfollow",
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.resolveWith((states) {
+                if (states.contains(MaterialState.pressed)) {
+                  return Color(0xffd76b5b);
+                }
+                return Color(0xffd76b5b);
+              }),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)))),
+        ),
+      );
     }
   }
 

@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 import 'package:recipeats/utils/const/loading.dart';
@@ -53,8 +54,20 @@ class _OtherRecipeCardViewState extends State<OtherRecipesCardView>{
         return Container(
           child: Column(
             children: <Widget>[
+              /*GestureDetector(
+                child:  ClipRRect(
+                   borderRadius: BorderRadius.circular(8.0),
+                 child: Image.network(data['food_image'], width: 500, height: 270, fit: BoxFit.fill, alignment: Alignment.center,
+              ),
+
+              ),
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => OtherRecipeCardDetails(data: data)));
+              },
+              )*/
               GestureDetector(
-                child: Column(
+                child:
+                Column(
                   children: <Widget>[
                     /*Row(
                     children: <Widget>[
@@ -187,8 +200,6 @@ class _OtherRecipeCardViewState extends State<OtherRecipesCardView>{
   Future<bool> updateFirebase(bool isLiked) async{
     if (isLiked){
       var likes = recipeData['likes'] - 1;
-      print(recipeData);
-      print(isLiked);
       favorite.remove(recipeData['Name'] +  recipeData['id']);
       db.collection('recipes').doc(
           recipeData['Name'] + recipeData['id']).update(
@@ -236,15 +247,14 @@ class _OtherRecipeCardViewState extends State<OtherRecipesCardView>{
     final docRef2 = db.collection('recipes').doc(uid);
     DocumentSnapshot docSnap2 = await docRef2.get();
     recipeData = docSnap2.data();
-    if (mounted) {
-      setState(() {
         ratings = recipeData['Rating'];
         userid = id!;
         numsOfLike = recipeData['likes'];
-        i = Image.network(userData['pfp']);
         favorite = userData['favorite_post'];
-      });
-    }
+    final docRef3 = db.collection('users').doc(recipeData['id']);
+    DocumentSnapshot docSnap3 = await docRef3.get();
+    dynamic OtherUserData = docSnap3.data();
+    i = Image.network(OtherUserData['pfp']);
   }
 
   String getRating() {

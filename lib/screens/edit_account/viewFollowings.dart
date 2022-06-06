@@ -45,7 +45,7 @@ class viewFollowingState extends State<viewFollowings>{
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
-          "Followers",
+          "Following",
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: hexStringToColor('3c403a')),
         ),
       ),

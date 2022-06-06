@@ -25,9 +25,9 @@ class _notifCardState extends State<notificationCard>{
   late String userId;
   late String notif;
   late String recipe;
-   Image userPfp = Image.asset('assets/images/emptyPfp.jpg');
-   Image dummy1 = Image.asset('assets/images/emptyPfp.jpg');
-   Image recipeImage = Image.asset('assets/images/emptyFood.jpg');
+  Image userPfp = Image.asset('assets/images/emptyPfp.jpg');
+  Image dummy1 = Image.asset('assets/images/emptyPfp.jpg');
+  Image recipeImage = Image.asset('assets/images/emptyFood.jpg');
   Image dummy2 = Image.asset('assets/images/emptyFood.jpg');
   late String recipeUserId;
   late dynamic data2;
@@ -71,14 +71,29 @@ class _notifCardState extends State<notificationCard>{
       return GestureDetector(
         onTap: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => OtherProfile(id: userId)));},
         child: Container(
+          padding: EdgeInsets.all(15),
+          margin: EdgeInsets.all(5),
+          //color: Colors.red,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Color(0xffd76b5b),
+              style: BorderStyle.solid,
+              width: 1.0,
+            ),
+            color: Color(0xffd76b5b),
+            borderRadius: BorderRadius.circular(8.0),
+          ),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               CircleAvatar(
                 backgroundImage: userPfp.image,
-                minRadius: 50,
+                maxRadius: 35,
                 backgroundColor: Colors.white,
               ),
-              Text(notif),
+              SizedBox(width: 10),
+              Text(notif, style: TextStyle(color: Colors.white),),
             ],
           ),
         ),
@@ -86,20 +101,36 @@ class _notifCardState extends State<notificationCard>{
     }
     else{
       return Container(
+        //alignment: Alignment.center,
+        padding: EdgeInsets.all(15),
+        margin: EdgeInsets.all(5),
+        //color: Colors.red,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Color(0xffd76b5b),
+            style: BorderStyle.solid,
+            width: 1.0,
+          ),
+          color: Color(0xffd76b5b),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
         child: GestureDetector(
           onTap: (){recipeNav();},
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               GestureDetector(
                 onTap: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => OtherProfile(id: userId)));},
                 child: CircleAvatar(
                   backgroundImage: userPfp.image,
-                  minRadius: 50,
+                  maxRadius: 35,
                   backgroundColor: Colors.white,
                 ),
               ),
-              Text(notif),
-              Image(image: recipeImage.image, width: 100, height: 100,),
+              SizedBox(width: 10),
+              Text(notif, style: TextStyle(color: Colors.white),),
+              Image(image: recipeImage.image, width: 100, height: 70,),
             ],
           ),
         ),

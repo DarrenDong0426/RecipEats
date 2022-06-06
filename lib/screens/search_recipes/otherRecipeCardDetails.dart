@@ -207,7 +207,8 @@ class _OtherRecipeCardDetailsState extends State<OtherRecipeCardDetails>{
                       child: Align(
                           alignment: Alignment.center,
                           child:
-                            Text(data["Info"])
+                            Row(
+                            children: <Widget>[ Flexible(child: Text(data["Info"]))])
                       ),
                     ),
                     Container(
@@ -430,7 +431,7 @@ class _OtherRecipeCardDetailsState extends State<OtherRecipeCardDetails>{
   }
 
   List<Widget> getSteps(){
-    var splitArray = widget.data["steps"].split(',');
+    var splitArray = widget.data["steps"].split('.');
     List<Widget> widgets = <Widget>[];
     for (var i = 0; i < splitArray.length; i++){
       var stepNum = i + 1;

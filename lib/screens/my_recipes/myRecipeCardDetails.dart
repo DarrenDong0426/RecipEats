@@ -468,7 +468,7 @@ class _myRecipeCardDetailsState extends State<myRecipeCardDetails>{
   List<Widget> getSteps(){
     var splitArray = widget.data["steps"].split('.');
     List<Widget> widgets = <Widget>[];
-    for (var i = 0; i < splitArray.length; i++){
+    for (var i = 0; i < splitArray.length - 1; i++){
       var stepNum = i + 1;
       var step = stepNum.toString() + ". " + splitArray[i].trim();
       widgets.add(ListTile(title: Text(step, style: TextStyle(color: Colors.white),)));

@@ -66,6 +66,24 @@ class LoadingState extends State<Loading>{
       }else if (loadState == "assets/images/loading5.png"){
         if (mounted) {
           setState(() {
+            loadState = "assets/images/loading6.png";
+          });
+        }
+      }else if (loadState == "assets/images/loading6.png"){
+        if (mounted) {
+          setState(() {
+            loadState = "assets/images/loading7.png";
+          });
+        }
+      }else if (loadState == "assets/images/loading7.png"){
+        if (mounted) {
+          setState(() {
+            loadState = "assets/images/loading8.png";
+          });
+        }
+      }else if (loadState == "assets/images/loading8.png"){
+        if (mounted) {
+          setState(() {
             loadState = "assets/images/loading1.png";
           });
         }

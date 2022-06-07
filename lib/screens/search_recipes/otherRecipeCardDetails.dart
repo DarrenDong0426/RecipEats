@@ -70,6 +70,7 @@ class _OtherRecipeCardDetailsState extends State<OtherRecipeCardDetails>{
     Map<String, dynamic> data = widget.data;
     return FutureBuilder(future: getData(),
         builder: (context, snapshot){
+      i = Image.network(widget.data['food_image']);
       if (i.toString() == z.toString()){
         return Loading();
       }
@@ -433,7 +434,7 @@ class _OtherRecipeCardDetailsState extends State<OtherRecipeCardDetails>{
   List<Widget> getSteps(){
     var splitArray = widget.data["steps"].split('.');
     List<Widget> widgets = <Widget>[];
-    for (var i = 0; i < splitArray.length; i++){
+    for (var i = 0; i < splitArray.length - 1; i++){
       var stepNum = i + 1;
       var step = stepNum.toString() + ". " + splitArray[i].trim();
       widgets.add(ListTile(title: Text(step, style: TextStyle(color: Colors.white),)));

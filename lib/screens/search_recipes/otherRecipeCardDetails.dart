@@ -59,7 +59,6 @@ class _OtherRecipeCardDetailsState extends State<OtherRecipeCardDetails>{
       rated = true;
       score = rateList[widget.data['Name'] + widget.data['id']];
     }
-    i = Image.network(widget.data['food_image']);
   }
 
 
